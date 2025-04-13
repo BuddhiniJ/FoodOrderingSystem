@@ -1,0 +1,34 @@
+# Node modules
+node_modules/
+
+# Env files
+.env
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Output folders
+dist/
+build/
+coverage/
+
+# Docker
+*.pid
+*.seed
+*.tgz
+docker-compose.override.yml
+
+# Optional if using TS later
+*.tsbuildinfo
