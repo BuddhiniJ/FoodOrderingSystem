@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Order Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      background-color: #ff5a5f;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    .content {
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      color: #999;
+    }
+    .order-details {
+      margin: 20px 0;
+    }
+    .order-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .total {
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: right;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ff5a5f;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Order Confirmation</h1>
+    </div>
+    <div class="content">
+      <p>Dear {{customerName}},</p>
+      <p>Thank you for your order! Your order has been confirmed and is being prepared.</p>
+      
+      <div class="order-details">
+        <h2>Order #{{orderNumber}}</h2>
+        <p><strong>Date:</strong> {{orderDate}}</p>
+        <p><strong>Restaurant:</strong> {{restaurantName}}</p>
+        
+        <h3>Items:</h3>
+        {{orderItems}}
+        
+        <div class="total">
+          <p>Subtotal: {{subtotal}}</p>
+          <p>Delivery Fee: {{deliveryFee}}</p>
+          <p>Total: {{total}}</p>
+        </div>
+        
+        <p><strong>Delivery Address:</strong><br>
+        {{deliveryAddress}}</p>
+        
+        <p><strong>Estimated Delivery Time:</strong> {{estimatedDeliveryTime}}</p>
+      </div>
+      
+      <a href="{{trackingLink}}" class="button">Track Your Order</a>
+      
+      <p>If you have any questions about your order, please contact our customer support.</p>
+      
+      <p>Thank you for choosing our service!</p>
+    </div>
+    <div class="footer">
+      <p>&copy; {{currentYear}} Food Delivery Platform. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
