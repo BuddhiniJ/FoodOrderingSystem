@@ -24,7 +24,7 @@ const Home = () => {
               <p>What would you like to do today?</p>
               <div className="user-actions">
                 <Link to="/profile" className="btn btn-primary">View Profile</Link>
-                {user.role === 'admin' && (
+                {user.role === 'restaurant-admin' && (
                   <Link to="/admin/users" className="btn btn-secondary">Manage Users</Link>
                 )}
               </div>
