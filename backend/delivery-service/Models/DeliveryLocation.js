@@ -1,11 +1,29 @@
-// 📁 /delivery-service/models/DeliveryLocation.js
 const mongoose = require('mongoose');
-const DeliveryLocationSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
-  currentLocation: {
-    lat: Number,
-    lng: Number,
+
+const LocationSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
-  timestamp: { type: Date, default: Date.now },
+  location: {
+    latitude: {
+      type: Number,
+      required: true,
+    },
+    longitude: {
+      type: Number,
+      required: true,
+    },
+  },
+  availability: {
+    type: Boolean,
+    default: true, // Assume delivery personnel is available by default
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
 });
-module.exports = mongoose.model('DeliveryLocation', DeliveryLocationSchema);
+
+module.exports = mongoose.model('Location', LocationSchema);
