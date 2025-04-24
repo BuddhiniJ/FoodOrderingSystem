@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const DeliveryLocationUpdater = ({ userId }) => {
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
+const DeliveryLocationUpdater = () => {
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [availability, setAvailability] = useState(true);
   const [status, setStatus] = useState("");
 
   const useCurrentLocation = () => {
@@ -14,8 +15,8 @@ const DeliveryLocationUpdater = ({ userId }) => {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setLat(position.coords.latitude.toFixed(6));
-        setLng(position.coords.longitude.toFixed(6));
+        setLatitude(position.coords.latitude.toFixed(6));
+        setLongitude(position.coords.longitude.toFixed(6));
         setStatus("Location fetched successfully!");
       },
       () => {
@@ -26,46 +27,84 @@ const DeliveryLocationUpdater = ({ userId }) => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/delivery-location/update", {
-        userId,
-        lat: parseFloat(lat),
-        lng: parseFloat(lng),
-      });
+      const token = localStorage.getItem("token"); // Ensure the user is authenticated
+      await axios.post(
+        "http://localhost:5005/api/location",
+        {
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
+          availability,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      setStatus("Location updated successfully!");
+      setStatus("Location and availability updated successfully!");
     } catch (error) {
       console.error(error);
-      setStatus("Error updating location");
+      setStatus("Error updating location and availability");
     }
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
-      <h2>Update Delivery Location</h2>
+    <div className="container mt-5">
+      <h2 className="text-center mb-4">Update Delivery Location</h2>
 
-      <div>
-        <button onClick={useCurrentLocation}>📍 Use My Current Location</button>
+      <div className="text-center mb-3">
+        <button className="btn btn-primary" onClick={useCurrentLocation}>
+          📍 Use My Current Location
+        </button>
       </div>
 
-      <div style={{ marginTop: "10px" }}>
-        <input
-          type="text"
-          placeholder="Latitude"
-          value={lat}
-          onChange={(e) => setLat(e.target.value)}
-          style={{ marginBottom: "8px", display: "block", width: "100%" }}
-        />
-        <input
-          type="text"
-          placeholder="Longitude"
-          value={lng}
-          onChange={(e) => setLng(e.target.value)}
-          style={{ marginBottom: "8px", display: "block", width: "100%" }}
-        />
-        <button onClick={handleSubmit}>✅ Submit Location</button>
+      <div className="card p-4">
+        <div className="form-group mb-3">
+          <label htmlFor="latitude">Latitude</label>
+          <input
+            type="text"
+            id="latitude"
+            className="form-control"
+            placeholder="Latitude"
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group mb-3">
+          <label htmlFor="longitude">Longitude</label>
+          <input
+            type="text"
+            id="longitude"
+            className="form-control"
+            placeholder="Longitude"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+          />
+        </div>
+
+        <div className="form-check mb-3">
+          <input
+            type="checkbox"
+            id="availability"
+            className="form-check-input"
+            checked={availability}
+            onChange={(e) => setAvailability(e.target.checked)}
+          />
+          <label className="form-check-label" htmlFor="availability">
+            Available for Delivery
+          </label>
+        </div>
+
+        <button className="btn btn-success w-100" onClick={handleSubmit}>
+          ✅ Submit Location
+        </button>
       </div>
 
-      {status && <p style={{ marginTop: "15px", color: "#555" }}>{status}</p>}
+      {status && (
+        <div className="alert alert-info mt-4 text-center">{status}</div>
+      )}
     </div>
   );
 };
