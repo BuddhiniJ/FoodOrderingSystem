@@ -12,7 +12,7 @@ const Home = () => {
         <div className="hero-section">
           <h1>Welcome to Food Delivery Platform</h1>
           <p>Order food from your favorite restaurants and get it delivered to your doorstep.</p>
-          
+
           {!isAuthenticated ? (
             <div className="cta-buttons">
               <Link to="/login" className="btn btn-primary">Login</Link>
@@ -25,7 +25,10 @@ const Home = () => {
               <div className="user-actions">
                 <Link to="/profile" className="btn btn-primary">View Profile</Link>
                 {user.role === 'restaurant-admin' && (
-                  <Link to="/admin/users" className="btn btn-secondary">Manage Users</Link>
+                  <div className="admin-actions">
+                    <Link to="/admin/users" className="btn btn-secondary">Manage Users</Link> &nbsp; &nbsp;
+                    <Link to="/my-restaurants" className="btn btn-secondary">My Restaurants</Link>
+                  </div>
                 )}
               </div>
             </div>
