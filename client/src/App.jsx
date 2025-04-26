@@ -23,6 +23,10 @@ import CartPage from './components/Customer/CartPage';
 import OrderHistory from './components/Customer/OrderHistory';
 import EditOrder from './components/Customer/EditOrder';
 
+// Delivery Components
+import DeliveryHome from './components/delivery/DeliveryHome';
+import DeliveryLocationUpdater from './components/delivery/DeliveryLocationUpdater';
+
 const App = () => {
   return (
     <AuthProvider>
@@ -50,6 +54,11 @@ const App = () => {
             <Route path="/view-orders/:id" element={<RestaurantOrders />} />
           </Route>
 
+          {/* Delivery Personnel Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['delivery-personnel']} />}>
+            <Route path="/delivery" element={<DeliveryHome />} />
+            <Route path="/location-updater" element={<DeliveryLocationUpdater />} />
+              
           {/* User Routes */}
           <Route element={<ProtectedRoute allowedRoles={['customer']} />}>
             <Route path="/restaurantsList" element={<RestaurantsList />} />
@@ -57,6 +66,7 @@ const App = () => {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/myorders" element={<OrderHistory />} />
             <Route path="/edit-order/:id" element={<EditOrder />} />
+
           </Route>
 
         </Routes>

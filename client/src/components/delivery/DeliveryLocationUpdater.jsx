@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import MainLayout from "../layout/MainLayout";
+import "./CSS/deliveryHome.css";
 
 const DeliveryLocationUpdater = () => {
   const [latitude, setLatitude] = useState("");
@@ -50,62 +52,54 @@ const DeliveryLocationUpdater = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">Update Delivery Location</h2>
+    <MainLayout>
+      <div className="container mt-5">
+        <h2 className="text-center mb-4">Update Delivery Location</h2>
 
-      <div className="text-center mb-3">
-        <button className="btn btn-primary" onClick={useCurrentLocation}>
-          📍 Use My Current Location
-        </button>
-      </div>
+        <div className="text-center mb-3">
+          <button className="btn btn-primary" onClick={useCurrentLocation}>
+          🧍🏽‍♂️ Use My Current Location
+          </button>
+        </div>
 
-      <div className="card p-4">
-        <div className="form-group mb-3">
-          <label htmlFor="latitude">Latitude</label>
+        <div className="card p-4">
+          {/* Hidden Latitude and Longitude Fields */}
           <input
-            type="text"
+            type="hidden"
             id="latitude"
-            className="form-control"
-            placeholder="Latitude"
             value={latitude}
             onChange={(e) => setLatitude(e.target.value)}
           />
-        </div>
-
-        <div className="form-group mb-3">
-          <label htmlFor="longitude">Longitude</label>
           <input
-            type="text"
+            type="hidden"
             id="longitude"
-            className="form-control"
-            placeholder="Longitude"
             value={longitude}
             onChange={(e) => setLongitude(e.target.value)}
           />
+
+          <div className="form-check mb-3">
+            <input
+              type="checkbox"
+              id="availability"
+              className="form-check-input"
+              checked={availability}
+              onChange={(e) => setAvailability(e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="availability">
+              Available for Delivery
+            </label>
+          </div>
+
+          <button className="btn btn-success w-100" onClick={handleSubmit}>
+            ✅ Submit Location
+          </button>
         </div>
 
-        <div className="form-check mb-3">
-          <input
-            type="checkbox"
-            id="availability"
-            className="form-check-input"
-            checked={availability}
-            onChange={(e) => setAvailability(e.target.checked)}
-          />
-          <label className="form-check-label" htmlFor="availability">
-            Available for Delivery
-          </label>
-        </div>
-
-        <button className="btn btn-success w-100" onClick={handleSubmit}>
-          ✅ Submit Location
-        </button>
+        {status && (
+          <div className="alert alert-info mt-4 text-center">{status}</div>
+        )}
       </div>
-
-      {status && (
-        <div className="alert alert-info mt-4 text-center">{status}</div>
-      )}
-    </div>
+    </MainLayout>
   );
 };
 
