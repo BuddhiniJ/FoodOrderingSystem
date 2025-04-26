@@ -1,0 +1,2311 @@
+:root {
+    --primary-color: #ff5a5f;
+    --secondary-color: #484848;
+    --accent-color: #00a699;
+    --light-color: #f7f7f7;
+    --dark-color: #222222;
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+    --border-color: #dddddd;
+    --text-color: #333333;
+    /* Additional custom colors */
+    --light-accent: #e6f7f6;
+    --light-primary: #fff0f0;
+    --muted-text: #6e6e6e;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.my-restaurants-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    color: var(--text-color);
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.page-header h1 {
+    color: var(--secondary-color);
+    font-size: 2rem;
+    margin: 0;
+}
+
+.add-restaurant-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.add-restaurant-btn:hover {
+    background-color: #e6484e;
+    text-decoration: none;
+    color: white;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.error-alert {
+    background-color: rgba(231, 76, 60, 0.1);
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background-color: var(--light-color);
+    border-radius: 8px;
+    border: 1px dashed var(--border-color);
+}
+
+.empty-state p {
+    margin: 0.5rem 0;
+    color: var(--secondary-color);
+}
+
+.restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.restaurant-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.restaurant-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--light-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.restaurant-card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-badge.available {
+    background-color: rgba(46, 204, 113, 0.15);
+    color: var(--success-color);
+}
+
+.status-badge.unavailable {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: var(--danger-color);
+}
+
+.restaurant-image-container {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.restaurant-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.restaurant-image:hover {
+    transform: scale(1.05);
+}
+
+.restaurant-details {
+    padding: 1rem;
+}
+
+.detail-item {
+    margin-bottom: 0.75rem;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-right: 0.5rem;
+}
+
+.detail-value {
+    color: var(--text-color);
+}
+
+.description .detail-value {
+    margin-top: 0.5rem;
+    display: block;
+    line-height: 1.5;
+}
+
+.restaurant-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--light-color);
+}
+
+.edit-btn1,
+.view-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.edit-btn1 {
+    background-color: var(--accent-color);
+    color: white;
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+.edit-btn1:hover {
+    background-color: #00958a;
+    color: white;
+    text-decoration: none;
+}
+
+.view-btn {
+    background-color: var(--light-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    flex: 1;
+    margin-left: 0.5rem;
+}
+
+.view-btn:hover {
+    background-color: #e8e8e8;
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+/* ResturantStyles.css */
+:root {
+    --primary-color: #ff5a5f;
+    --secondary-color: #484848;
+    --accent-color: #00a699;
+    --light-color: #f7f7f7;
+    --dark-color: #222222;
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+    --border-color: #dddddd;
+    --text-color: #333333;
+
+    /* Additional custom colors */
+    --light-accent: #e6f7f6;
+    --light-primary: #fff0f0;
+    --muted-text: #6e6e6e;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* General Layout */
+.restaurant-view-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.restaurant-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+/* Restaurant Header */
+.restaurant-header {
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 0;
+    margin-bottom: 24px;
+}
+
+.restaurant-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.restaurant-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin: 0;
+}
+
+.restaurant-location {
+    color: var(--muted-text);
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: var(--secondary-color);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+    background-color: var(--light-color);
+    border-color: var(--secondary-color);
+}
+
+/* Restaurant Detail Card */
+.restaurant-details-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+}
+
+.restaurant-info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.restaurant-image-wrapper {
+    height: 260px;
+    overflow: hidden;
+}
+
+.restaurant-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.restaurant-info {
+    padding: 24px;
+}
+
+.restaurant-info.with-image {
+    border-top: 1px solid var(--border-color);
+}
+
+.info-panel h3 {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: var(--dark-color);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.info-item {
+    margin-bottom: 16px;
+}
+
+.info-label {
+    font-size: 14px;
+    color: var(--muted-text);
+    margin-bottom: 4px;
+}
+
+.info-value {
+    font-size: 16px;
+    color: var(--dark-color);
+}
+
+.info-value.description {
+    line-height: 1.6;
+}
+
+.status-pill {
+    display: inline-flex;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status-pill.available {
+    background-color: var(--light-accent);
+    color: var(--accent-color);
+}
+
+.status-pill.unavailable {
+    background-color: var(--light-primary);
+    color: var(--primary-color);
+}
+
+.restaurant-map-container {
+    margin-top: 24px;
+}
+
+.restaurant-error-notice {
+    background-color: var(--light-primary);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.error-icon {
+    color: var(--primary-color);
+}
+
+/* Menu Form Card */
+.menu-form-card,
+.menu-items-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 24px;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--dark-color);
+}
+
+.menu-form {
+    padding: 24px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.form-group-rest {
+    margin-bottom: 20px;
+}
+
+.form-group-rest label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--dark-color);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 166, 153, 0.1);
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.price-category-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Image Upload */
+.image-upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    background-color: var(--light-color);
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.upload-placeholder {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted-text);
+}
+
+.upload-text {
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+.file-upload-label {
+    cursor: pointer;
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+.file-upload-label:hover {
+    text-decoration: underline;
+}
+
+.upload-hint {
+    font-size: 14px;
+    color: var(--muted-text);
+    margin: 0;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.image-preview-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-image-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.remove-image-btn:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.submit-btn,
+.cancel-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.submit-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+}
+
+.submit-btn:hover {
+    background-color: #008f83;
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.cancel-btn {
+    background-color: white;
+    color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+}
+
+.cancel-btn:hover {
+    background-color: var(--light-color);
+}
+
+/* Spinner for submitting state */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner-track {
+    opacity: 0.2;
+}
+
+.spinner-path {
+    opacity: 1;
+}
+
+/* Menu Items Table */
+.menu-table-container {
+    padding: 0 24px 24px;
+    overflow-x: auto;
+}
+
+.menu-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.menu-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.menu-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.actions-column {
+    width: 150px;
+    text-align: right;
+}
+
+.menu-item-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.menu-item-image,
+.menu-item-no-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    background-color: var(--light-color);
+}
+
+.menu-item-no-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--muted-text);
+}
+
+.menu-item-name {
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.menu-item-description {
+    color: var(--muted-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+.menu-item-price {
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.category-badge {
+    background-color: var(--light-accent);
+    color: var(--accent-color);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.menu-item-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.edit-btn {
+    background-color: var(--light-accent);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+
+.edit-btn:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.delete-btn {
+    background-color: var(--light-primary);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+
+.delete-btn:hover {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* Empty States */
+.empty-menu-state {
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--muted-text);
+}
+
+.empty-menu-state svg {
+    margin-bottom: 16px;
+}
+
+/* Loading State */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--light-color);
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+/* EditRestaurantStyles.css */
+
+.edit-restaurant-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.edit-restaurant-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 24px;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark-color);
+}
+
+.edit-form {
+    padding: 24px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.form-group-rest.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group-rest label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--dark-color);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 166, 153, 0.1);
+}
+
+.form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Image Upload Section */
+.image-section {
+    margin-bottom: 24px;
+    grid-column: 1 / -1;
+}
+
+.upload-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--dark-color);
+}
+
+.image-upload-container {
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    background-color: var(--light-color);
+    padding: 24px;
+    text-align: center;
+    position: relative;
+}
+
+.upload-area {
+    cursor: pointer;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-icon {
+    color: var(--muted-text);
+    margin-bottom: 12px;
+}
+
+.upload-text {
+    color: var(--accent-color);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.upload-hint {
+    font-size: 14px;
+    color: var(--muted-text);
+}
+
+.file-input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.image-preview-wrapper {
+    margin-top: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.preview-image {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.remove-image {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.remove-image:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Map Section */
+.map-section {
+    grid-column: 1 / -1;
+    margin-bottom: 24px;
+}
+
+.map-container {
+    border-radius: 12px;
+    overflow: hidden;
+    height: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.map-instructions {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--muted-text);
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    grid-column: 1 / -1;
+}
+
+.cancel-btn {
+    padding: 12px 24px;
+    background-color: white;
+    color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+    background-color: var(--light-color);
+}
+
+.submit-btn {
+    padding: 12px 24px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.submit-btn:hover {
+    background-color: #008f83;
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Status toggle */
+.toggle-container {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-label {
+    margin-right: 12px;
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.toggle-slider {
+    background-color: var(--accent-color);
+}
+
+input:focus+.toggle-slider {
+    box-shadow: 0 0 1px var(--accent-color);
+}
+
+input:checked+.toggle-slider:before {
+    transform: translateX(24px);
+}
+
+.toggle-status {
+    margin-left: 12px;
+    font-size: 14px;
+}
+
+.status-available {
+    color: var(--accent-color);
+}
+
+.status-unavailable {
+    color: var(--primary-color);
+}
+
+/* Loading state */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--light-color);
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.restaurants-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.restaurants-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.restaurants-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.restaurants-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+}
+
+
+
+.restaurant-card {
+    display: block;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.restaurant-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    border-color: var(--accent-color);
+}
+
+.restaurant-image {
+    height: 180px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.restaurant-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    padding: 1rem 1rem 0.25rem;
+}
+
+.restaurant-location {
+    font-size: 0.9rem;
+    color: var(--muted-text);
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.restaurant-location::before {
+    content: '📍';
+    font-size: 0.8rem;
+}
+
+.restaurant-description {
+    font-size: 0.85rem;
+    color: var(--text-color);
+    padding: 0.5rem 1rem 1rem;
+    line-height: 1.4;
+}
+
+.loading-indicator {
+    padding: 2rem;
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.menu-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+}
+
+.restaurant-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.menu-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    position: relative;
+    display: inline-block;
+}
+
+.menu-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50%;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.menu-items-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+}
+
+.menu-item-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease;
+    border: 1px solid var(--border-color);
+}
+
+.menu-item-card:hover {
+    transform: translateY(-4px);
+}
+
+.menu-item-image {
+    height: 180px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.menu-item-content {
+    padding: 1rem;
+}
+
+.menu-item-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.menu-item-description {
+    font-size: 0.9rem;
+    color: var(--muted-text);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.menu-item-price {
+    font-size: 1rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.form-group-rest {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.form-label-rest {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.quantity-input-rest {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    width: 4rem;
+    color: var(--text-color);
+    background-color: var(--light-color);
+}
+
+.note-textarea-rest {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    background-color: var(--light-color);
+    color: var(--text-color);
+    resize: vertical;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.2s ease;
+}
+
+.note-textarea-rest:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.add-to-cart-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #e14045;
+}
+
+/* Modal Styles */
+.rest-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.rest-modal-content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.rest-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.rest-modal-item-name {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.rest-modal-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.cart-btn {
+    background-color: var(--success-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cart-btn:hover {
+    background-color: #27ae60;
+}
+
+.close-btn-rest {
+    background-color: var(--light-color);
+    color: var(--secondary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+}
+
+.cart-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cart-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    position: relative;
+    display: inline-block;
+}
+
+.cart-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50%;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted-text);
+    background-color: var(--light-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.browse-btn-rest {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.browse-btn-rest:hover {
+    background-color: #008f85;
+}
+
+.order-group-rest {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    background-color: white;
+}
+
+.restaurant-banner {
+    background-color: var(--light-accent);
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.restaurant-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.items-list {
+    padding: 0.75rem 0;
+}
+
+.cart-item {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.item-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.item-name {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.item-quantity {
+    color: var(--muted-text);
+    font-size: 0.9rem;
+}
+
+.item-price {
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 0.25rem;
+}
+
+.item-note {
+    font-size: 0.85rem;
+    color: var(--muted-text);
+    font-style: italic;
+    padding-left: 0.25rem;
+    border-left: 2px solid var(--light-accent);
+}
+
+.group-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--light-color);
+    border-top: 1px solid var(--border-color);
+    font-weight: 700;
+    color: var(--dark-color);
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+.edit-order-btn,
+.confirm-order-btn,
+.cancel-order-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-order-btn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.confirm-order-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-order-btn {
+  background-color: #F44336;
+  color: white;
+}
+
+.continue-btn-rest {
+    background-color: var(--light-color);
+    color: var(--text-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.continue-btn-rest:hover {
+    background-color: #e8e8e8;
+}
+
+.place-order-btn {
+    background-color: var(--success-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.place-order-btn:hover {
+    background-color: #27ae60;
+}
+
+.close-btn-rest:hover {
+    background-color: #e8e8e8;
+}
+
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-indicator {
+    padding: 2rem;
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.orders-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+}
+
+.orders-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.orders-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    position: relative;
+    display: inline-block;
+}
+
+.orders-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50%;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.no-orders {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted-text);
+    background-color: var(--light-color);
+    border-radius: 8px;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.order-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--light-color);
+}
+
+.order-reference {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.order-status {
+    padding: 0.35rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.order-items {
+    padding: 1rem 1.25rem;
+}
+
+.order-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.item-details {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.item-name {
+    font-weight: 500;
+    color: var(--text-color);
+    flex-grow: 1;
+}
+
+.item-quantity {
+    color: var(--muted-text);
+    font-size: 0.9rem;
+}
+
+.item-price {
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.item-note {
+    font-size: 0.85rem;
+    color: var(--muted-text);
+    font-style: italic;
+    padding-left: 0.25rem;
+    margin-top: 0.25rem;
+    border-left: 2px solid var(--light-accent);
+}
+
+.order-summary {
+    padding: 1rem 1.25rem;
+    background-color: var(--light-color);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-total {
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0.25rem;
+}
+
+.order-date {
+    font-size: 0.85rem;
+    color: var(--muted-text);
+}
+
+.order-actions {
+    display: flex;
+  gap: 10px; /* space between buttons */
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.status-label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.status-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: white;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.loading-indicator {
+    padding: 2rem;
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.orders-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+}
+
+.orders-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.orders-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    position: relative;
+    display: inline-block;
+    margin: 0;
+}
+
+.orders-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50%;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.date-filter {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.date-input {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.date-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.status-tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tab {
+    padding: 0.5rem 1rem;
+    background-color: var(--light-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    background-color: var(--light-accent);
+}
+
+.tab.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.no-orders {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted-text);
+    background-color: var(--light-color);
+    border-radius: 8px;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.order-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--light-color);
+}
+
+.order-reference {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.order-status {
+    padding: 0.35rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.order-items {
+    padding: 1rem 1.25rem;
+}
+
+.order-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.item-details {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.item-name {
+    font-weight: 500;
+    color: var(--text-color);
+    flex-grow: 1;
+}
+
+.item-quantity {
+    color: var(--muted-text);
+    font-size: 0.9rem;
+}
+
+.item-price {
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.item-note {
+    font-size: 0.85rem;
+    color: var(--muted-text);
+    font-style: italic;
+    padding-left: 0.25rem;
+    margin-top: 0.25rem;
+    border-left: 2px solid var(--light-accent);
+}
+
+.order-summary {
+    padding: 1rem 1.25rem;
+    background-color: var(--light-color);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-total {
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0.25rem;
+}
+
+.order-date {
+    font-size: 0.85rem;
+    color: var(--muted-text);
+}
+
+.order-actions {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.status-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: white;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}    
+
+.order-history-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.order-history-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 18px;
+    color: #666;
+}
+
+.no-orders-message {
+    text-align: center;
+    padding: 40px 0;
+    font-size: 18px;
+    color: #666;
+    background: #f8f8f8;
+    border-radius: 8px;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.2s;
+}
+
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #eee;
+}
+
+.order-ref {
+    font-weight: 600;
+    color: #333;
+}
+
+.order-status {
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.order-status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.order-status-delivered {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.order-status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.order-status-processing {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.order-items {
+    list-style-type: none;
+    padding: 15px;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+}
+
+.order-item {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.item-note {
+    margin-top: 5px;
+    font-style: italic;
+    color: #666;
+    font-size: 14px;
+}
+
+.order-footer {
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+}
+
+.order-total {
+    font-weight: 700;
+    font-size: 18px;
+    color: #333;
+}
+
+.order-date {
+    color: #666;
+    font-size: 14px;
+}
+
+.edit-order-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.edit-order-btn:hover {
+    background-color: #357abd;
+}
+
+@media (max-width: 768px) {
+
+    .order-header,
+    .order-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .order-status {
+        align-self: flex-start;
+    }
+
+    .order-footer {
+        text-align: center;
+    }
+
+    .edit-order-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+.restaurant-search-container {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.restaurant-search-bar {
+    padding: 0.5rem 1rem;
+    width: 100%;
+    max-width: 400px;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.restaurant-search-bar:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(255, 90, 95, 0.2);
+}
+
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: 3fr 2fr;
+    }
+
+    .menu-items-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .restaurant-info-container {
+        flex-direction: row;
+    }
+
+    .restaurant-image-wrapper {
+        width: 40%;
+        height: auto;
+    }
+
+    .restaurant-info.with-image {
+        width: 60%;
+        border-top: none;
+        border-left: 1px solid var(--border-color);
+    }
+
+    .price-category-row {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-item-description {
+        max-width: 200px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .add-restaurant-btn {
+        margin-top: 1rem;
+    }
+
+    .restaurant-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .orders-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .status-tabs {
+        padding-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-actions {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (min-width: 640px) {
+    .restaurants-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .item-details {
+        flex-wrap: wrap;
+    }
+
+    .order-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .status-select {
+        width: 100%;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .item-details {
+        flex-wrap: wrap;
+    }
+
+    .order-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .status-select {
+        width: 100%;
+    }
+
+    .date-filter {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (min-width: 1024px) {
+    .restaurants-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
