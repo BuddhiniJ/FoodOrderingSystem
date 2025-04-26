@@ -12,6 +12,20 @@ import Register from './components/auth/Register';
 import Profile from './components/profile/Profile';
 import UpdateProfile from './components/profile/UpdateProfile';
 import UserManagement from './components/admin/UserManagement';
+import MyRestaurantsPage from './components/resturant/MyRestaurantsPage';
+import RegisterRestaurant from './components/resturant/RegisterRestaurant';
+import ResturantView from './components/resturant/ResturantView';
+import EditResturant from './components/resturant/EditResturant';
+import RestaurantOrders from './components/resturant/RestaurantOrders';
+import RestaurantsList from './components/Customer/RestaurantsList';
+import MenuPage from './components/Customer/MenuPage';
+import CartPage from './components/Customer/CartPage';
+import OrderHistory from './components/Customer/OrderHistory';
+import EditOrder from './components/Customer/EditOrder';
+
+// Delivery Components
+import DeliveryHome from './components/delivery/DeliveryHome';
+import DeliveryLocationUpdater from './components/delivery/DeliveryLocationUpdater';
 
 const App = () => {
   return (
@@ -33,7 +47,28 @@ const App = () => {
           {/* Admin Routes */}
           <Route element={<ProtectedRoute allowedRoles={['restaurant-admin']} />}>
             <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/my-restaurants" element={<MyRestaurantsPage />} />
+            <Route path="/add-restaurant" element={<RegisterRestaurant />} />
+            <Route path="/view-restaurant/:id" element={<ResturantView />} />
+            <Route path="/edit-restaurant/:id" element={<EditResturant />} />
+            <Route path="/view-orders/:id" element={<RestaurantOrders />} />
           </Route>
+
+          {/* Delivery Personnel Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['delivery-personnel']} />}>
+            <Route path="/delivery" element={<DeliveryHome />} />
+            <Route path="/location-updater" element={<DeliveryLocationUpdater />} />
+              
+          {/* User Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['customer']} />}>
+            <Route path="/restaurantsList" element={<RestaurantsList />} />
+            <Route path="/restaurants/:id/menu" element={<MenuPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/myorders" element={<OrderHistory />} />
+            <Route path="/edit-order/:id" element={<EditOrder />} />
+
+          </Route>
+
         </Routes>
       </Router>
     </AuthProvider>
