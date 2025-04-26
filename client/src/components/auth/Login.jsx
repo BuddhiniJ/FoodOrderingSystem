@@ -12,19 +12,26 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
 
-  const handleSubmit = async (values) => {
-    try {
-      setLoading(true);
-      setError('');
-      const response = await login(values);
-      setUser(response.user);
-      navigate('/');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
-    } finally {
-      setLoading(false);
+  // filepath: e:\MyProjects\FoodOrderingSystem\client\src\components\auth\Login.jsx
+const handleSubmit = async (values) => {
+  try {
+    setLoading(true);
+    setError("");
+    const response = await login(values);
+    setUser(response.user);
+
+    // Redirect based on user role
+    if (response.user.role === "delivery-personnel") {
+      navigate("/delivery");
+    } else {
+      navigate("/");
     }
-  };
+  } catch (err) {
+    setError(err.response?.data?.message || "Login failed. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <MainLayout>

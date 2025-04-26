@@ -13,6 +13,10 @@ import Profile from './components/profile/Profile';
 import UpdateProfile from './components/profile/UpdateProfile';
 import UserManagement from './components/admin/UserManagement';
 
+// Delivery Components
+import DeliveryHome from './components/delivery/DeliveryHome';
+import DeliveryLocationUpdater from './components/delivery/DeliveryLocationUpdater';
+
 const App = () => {
   return (
     <AuthProvider>
@@ -34,6 +38,13 @@ const App = () => {
           <Route element={<ProtectedRoute allowedRoles={['restaurant-admin']} />}>
             <Route path="/admin/users" element={<UserManagement />} />
           </Route>
+
+          {/* Delivery Personnel Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['delivery-personnel']} />}>
+            <Route path="/delivery" element={<DeliveryHome />} />
+            <Route path="/location-updater" element={<DeliveryLocationUpdater />} />
+          </Route>
+
         </Routes>
       </Router>
     </AuthProvider>
