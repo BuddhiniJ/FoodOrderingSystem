@@ -23,18 +23,8 @@ const Navbar = () => {
             <Link to="/profile">Profile</Link>
             {user.role === 'restaurant-admin' && <Link to="/admin/users">Manage Users</Link>}
             {user.role === 'restaurant-admin' && <Link to="/my-restaurants">My Restaurants</Link>}
-            {user.role === 'customer' && (
-              <Link to="/cart" className="nav-link">
-              <i className="cart-icon">🛒</i>
-              Cart
-            </Link>
-            )}
-            {user.role === 'customer' && (
-              <Link to="/myorders" className="nav-link">
-                <i className="orders-icon">📋</i>
-                My Orders
-              </Link>
-            )}
+            {user.role === 'customer' && <Link to="/cart" className="nav-link"> Cart </Link>}
+            {user.role === 'customer' && <Link to="/myorders" className="nav-link"> My Orders </Link>}
             <button onClick={handleLogout} className="logout-btn">Logout</button>
           </>
         ) : (

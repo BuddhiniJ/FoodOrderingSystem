@@ -46,6 +46,11 @@ const RestaurantOrders = () => {
           bg: '#fff0f0',
           text: 'var(--primary-color)',
         };
+      case 'confirmed':
+        return {
+          bg: '#f7f7f7',
+          text: 'var(--secondary-color)',
+        };
       case 'preparing':
         return {
           bg: '#FFF8E1',
@@ -133,7 +138,7 @@ const RestaurantOrders = () => {
 
         {/* Tabs for each order status */}
         <div className="status-tabs">
-          {['pending', 'preparing', 'ready-for-delivery', 'out-for-delivery', 'delivered', 'cancelled'].map(
+          {['pending', 'confirmed', 'preparing', 'ready-for-delivery', 'out-for-delivery', 'delivered', 'cancelled'].map(
             (status) => (
               <button
                 key={status}
@@ -195,13 +200,16 @@ const RestaurantOrders = () => {
                       value={order.status}
                       onChange={(e) => handleStatusChange(order._id, e.target.value)}
                       className="status-select"
+                      disabled={order.status === 'pending' || order.status === 'cancelled'}
                     >
-                      <option value="pending">Pending</option>
+
+                      {/* <option value="pending">Pending</option> */}
+                      <option value="confirmed">Confirmed</option>
                       <option value="preparing">Preparing</option>
                       <option value="ready-for-delivery">Ready for Delivery</option>
                       <option value="out-for-delivery">Out for Delivery</option>
                       <option value="delivered">Delivered</option>
-                      <option value="cancelled">Cancelled</option>
+                      {/* <option value="cancelled">Cancelled</option> */}
                     </select>
                   </div>
                 </div>

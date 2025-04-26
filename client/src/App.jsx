@@ -21,6 +21,7 @@ import RestaurantsList from './components/Customer/RestaurantsList';
 import MenuPage from './components/Customer/MenuPage';
 import CartPage from './components/Customer/CartPage';
 import OrderHistory from './components/Customer/OrderHistory';
+import EditOrder from './components/Customer/EditOrder';
 
 const App = () => {
   return (
@@ -55,6 +56,7 @@ const App = () => {
             <Route path="/restaurants/:id/menu" element={<MenuPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/myorders" element={<OrderHistory />} />
+            <Route path="/edit-order/:id" element={<EditOrder />} />
           </Route>
 
         </Routes>

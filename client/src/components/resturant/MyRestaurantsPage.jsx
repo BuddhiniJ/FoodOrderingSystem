@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './ResturantStyles.css'; // Import the custom CSS file
-import MainLayout from '../layout/MainLayout';
 
 const MyRestaurantsPage = () => {
   const token = localStorage.getItem('token');
@@ -56,9 +54,8 @@ const MyRestaurantsPage = () => {
   }
 
   return (
-    <MainLayout>
 
-      <div className="my-restaurants-container">
+      <div className="restaurants-container">
         <div className="page-header">
           <h1>My Restaurants</h1>
           <Link to="/add-restaurant" className="add-restaurant-btn">
@@ -72,7 +69,7 @@ const MyRestaurantsPage = () => {
             <p>Click the button above to add your first restaurant.</p>
           </div>
         ) : (
-          <div className="restaurant-grid">
+          <div className="restaurants-grid">
             {restaurants.map(restaurant => (
                   <Link to={`/view-restaurant/${restaurant._id}`}>
 
@@ -111,15 +108,7 @@ const MyRestaurantsPage = () => {
                     <p className="detail-value">{restaurant.description}</p>
                   </div>
                 </div>
-
-                {/* <div className="restaurant-actions">
-                  <Link to={`/edit-restaurant/${restaurant._id}`} className="edit-btn">
-                    Edit
-                  </Link>
-                  <Link to={`/view-restaurant/${restaurant._id}`} className="view-btn">
-                    View Details
-                  </Link>
-                </div> */}
+                
               </div>
                   </Link>
 
@@ -127,7 +116,6 @@ const MyRestaurantsPage = () => {
           </div>
         )}
       </div>
-    </MainLayout>
 
   );
 };

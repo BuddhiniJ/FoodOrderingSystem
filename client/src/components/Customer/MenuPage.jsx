@@ -85,19 +85,19 @@ const MenuPage = () => {
                 <p className="menu-item-description">{item.description}</p>
                 <p className="menu-item-price">Rs. {item.price}</p>
                 
-                <div className="form-group">
+                <div className="form-group-rest">
                   <label className="form-label">Qty:</label>
                   <input
                     type="number"
                     min={1}
                     value={formState[item._id]?.quantity || 1}
                     onChange={e => handleChange(item._id, 'quantity', Number(e.target.value))}
-                    className="quantity-input"
+                    className="quantity-input-rest"
                   />
                 </div>
                 
                 <textarea
-                  className="note-textarea"
+                  className="note-textarea-rest"
                   rows={2}
                   placeholder="Special instructions (optional)"
                   value={formState[item._id]?.note || ''}
@@ -117,11 +117,11 @@ const MenuPage = () => {
 
         {/* Popup Modal */}
         {popupItem && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h2 className="modal-title">Item added to cart!</h2>
-              <p className="modal-item-name">{popupItem.name}</p>
-              <div className="modal-buttons">
+          <div className="rest-modal-overlay">
+            <div className="rest-modal-content">
+              <h2 className="rest-modal-title">Item added to cart!</h2>
+              <p className="rest-modal-item-name">{popupItem.name}</p>
+              <div className="rest-modal-buttons">
                 <button
                   onClick={() => navigate('/cart')}
                   className="cart-btn"
@@ -130,7 +130,7 @@ const MenuPage = () => {
                 </button>
                 <button
                   onClick={closePopup}
-                  className="close-btn"
+                  className="close-btn-rest"
                 >
                   Close
                 </button>

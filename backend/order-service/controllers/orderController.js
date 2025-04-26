@@ -85,3 +85,25 @@ exports.getOrdersByRestaurant = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// backend/controllers/orderController.js
+exports.updateOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    if (order.status !== 'pending') {
+      return res.status(400).json({ message: 'Only pending orders can be updated' });
+    }
+
+    order.items = req.body.items;
+    order.totalAmount = req.body.items.reduce((sum, i) => sum + i.quantity * i.price, 0);
+    await order.save();
+
+    res.json(order);
+  } catch (err) {
+    console.error('[Update Order Error]', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+

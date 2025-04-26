@@ -8,10 +8,11 @@ router.post('/', controller.createOrder);
 // Get order by ID
 router.get('/:id', controller.getOrderById);
 
-// Get all orders for a customer
-// router.get('/user/:customerId', controller.getOrdersByCustomer);
-router.get('/user/:id', controller.getOrdersByUserId);
+// update order by ID
+router.put('/:id', controller.updateOrder);
 
+// Get all orders for a customer
+router.get('/user/:id', controller.getOrdersByUserId);
 
 // Update order status
 router.patch('/:id/status', controller.updateOrderStatus);

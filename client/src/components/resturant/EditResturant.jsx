@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
-import './ResturantStyles.css'; // Import the custom CSS file
 import MainLayout from '../layout/MainLayout';
 
 const EditRestaurant = () => {

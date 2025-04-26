@@ -7,7 +7,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import MainLayout from '../layout/MainLayout';
 import Swal from 'sweetalert2';
-
+import { useEffect } from 'react'; // make sure this is imported
 
 
 const CartPage = () => {
@@ -29,6 +29,13 @@ const CartPage = () => {
     return acc;
   }, {});
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
+ 
+
   const placeOrder = async () => {
     try {
       const orderPromises = Object.values(groupedByRestaurant).map(async group => {
@@ -36,7 +43,7 @@ const CartPage = () => {
         const order = {
           reference,
           restaurantId: group.restaurantId,
-          customerId: user?._id || 'guest',
+          customerId: user?._id || user?.id || 'guest',
           items: group.items.map(i => ({
             itemId: i._id,
             name: i.name,
@@ -88,7 +95,7 @@ const CartPage = () => {
             <p>Your cart is empty.</p>
             <button
               onClick={() => navigate('/restaurantsList')}
-              className="browse-btn"
+              className="browse-btn-rest"
             >
               Browse Restaurants
             </button>
@@ -96,7 +103,7 @@ const CartPage = () => {
         ) : (
           <>
             {Object.values(groupedByRestaurant).map(group => (
-              <div key={group.restaurantId} className="order-group">
+              <div key={group.restaurantId} className="order-group-rest">
                 <div className="restaurant-banner">
                   <h2 className="restaurant-name">{group.restaurantName}</h2>
                 </div>
@@ -122,7 +129,7 @@ const CartPage = () => {
             <div className="cart-actions">
               <button
                 onClick={() => navigate('/restaurantsList')}
-                className="continue-btn"
+                className="continue-btn-rest"
               >
                 Continue Shopping
               </button>
