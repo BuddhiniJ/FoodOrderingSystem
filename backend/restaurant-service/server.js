@@ -6,11 +6,11 @@ const app = express();
 app.use(express.json());
 app.use(require('cors')());
 
-// DB connection
+// DB Connection
 connectDB();
 
 // Routes
-app.use('/api/orders', require('./routes/orderRoutes'));
+app.use('/api/restaurants', require('./routes/restaurantRoutes'));
 
-const PORT = process.env.PORT || 5004;
-app.listen(PORT, () => console.log(`Order service running on port ${PORT}`));
+const PORT = process.env.PORT || 5003;
+app.listen(PORT, () => console.log(`Restaurant service running on port ${PORT}`));
