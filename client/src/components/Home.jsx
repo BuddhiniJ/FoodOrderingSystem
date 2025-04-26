@@ -30,6 +30,11 @@ const Home = () => {
                     <Link to="/my-restaurants" className="btn btn-secondary">My Restaurants</Link>
                   </div>
                 )}
+                {user.role === 'customer' && (
+                  <div>
+                    <Link to="/restaurantsList" className="btn btn-secondary">View Resturants</Link> &nbsp; &nbsp;
+                  </div>
+                )}
               </div>
             </div>
           )}

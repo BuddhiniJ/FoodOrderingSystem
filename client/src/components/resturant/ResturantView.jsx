@@ -120,6 +120,10 @@ const RestaurantView = () => {
     }
   };
 
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+  });
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -133,12 +137,12 @@ const RestaurantView = () => {
     width: '100%',
     height: '300px',
     borderRadius: '12px',
-    marginTop: '1rem'
+    marginTop: '1rem',
   };
 
   const center = {
-    lat: parseFloat(restaurant?.latitude || 6.9271),  // default to Colombo
-    lng: parseFloat(restaurant?.longitude || 79.8612)
+    lat: parseFloat(restaurant?.latitude || 6.9271),
+    lng: parseFloat(restaurant?.longitude || 79.8612),
   };
 
   return (
@@ -175,6 +179,19 @@ const RestaurantView = () => {
                       alt={restaurant.name}
                       className="restaurant-image"
                     />
+                    <div>
+                    <br/>
+
+                      <Link to={`/view-orders/${restaurantId}`} className="edit-btn1">
+                        View Orders
+                      </Link>
+                      &nbsp;
+                      <Link to={`/edit-restaurant/${restaurant._id}`} className="view-btn">
+
+                        Update Resturant Details
+                      </Link>
+                    </div>
+
                   </div>
                 )}
 

@@ -74,7 +74,10 @@ const MyRestaurantsPage = () => {
         ) : (
           <div className="restaurant-grid">
             {restaurants.map(restaurant => (
+                  <Link to={`/view-restaurant/${restaurant._id}`}>
+
               <div key={restaurant._id} className="restaurant-card">
+
                 <div className="restaurant-card-header">
                   <h3>{restaurant.name}</h3>
                   <span className={`status-badge ${restaurant.isAvailable ? 'available' : 'unavailable'}`}>
@@ -109,15 +112,17 @@ const MyRestaurantsPage = () => {
                   </div>
                 </div>
 
-                <div className="restaurant-actions">
+                {/* <div className="restaurant-actions">
                   <Link to={`/edit-restaurant/${restaurant._id}`} className="edit-btn">
                     Edit
                   </Link>
                   <Link to={`/view-restaurant/${restaurant._id}`} className="view-btn">
                     View Details
                   </Link>
-                </div>
+                </div> */}
               </div>
+                  </Link>
+
             ))}
           </div>
         )}

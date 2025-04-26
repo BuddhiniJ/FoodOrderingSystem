@@ -16,6 +16,11 @@ import MyRestaurantsPage from './components/resturant/MyRestaurantsPage';
 import RegisterRestaurant from './components/resturant/RegisterRestaurant';
 import ResturantView from './components/resturant/ResturantView';
 import EditResturant from './components/resturant/EditResturant';
+import RestaurantOrders from './components/resturant/RestaurantOrders';
+import RestaurantsList from './components/Customer/RestaurantsList';
+import MenuPage from './components/Customer/MenuPage';
+import CartPage from './components/Customer/CartPage';
+import OrderHistory from './components/Customer/OrderHistory';
 
 const App = () => {
   return (
@@ -41,7 +46,17 @@ const App = () => {
             <Route path="/add-restaurant" element={<RegisterRestaurant />} />
             <Route path="/view-restaurant/:id" element={<ResturantView />} />
             <Route path="/edit-restaurant/:id" element={<EditResturant />} />
+            <Route path="/view-orders/:id" element={<RestaurantOrders />} />
           </Route>
+
+          {/* User Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['customer']} />}>
+            <Route path="/restaurantsList" element={<RestaurantsList />} />
+            <Route path="/restaurants/:id/menu" element={<MenuPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/myorders" element={<OrderHistory />} />
+          </Route>
+
         </Routes>
       </Router>
     </AuthProvider>
