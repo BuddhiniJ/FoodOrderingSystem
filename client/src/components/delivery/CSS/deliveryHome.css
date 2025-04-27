@@ -1,59 +1,108 @@
 /* General container styling */
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f9fa; /* Light background */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+/* Card Styling */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Table Styling */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  vertical-align: middle;
+  border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+  background-color: #f1f3f5;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* Badge Styling */
+.badge {
+  font-size: 0.9rem;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+/* Specific Badge Colors */
+.badge.bg-success {
+  background-color: #28a745 !important;
+}
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+/* Button Styling */
+.btn-primary, .btn-success {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.3s ease all;
+}
+
+.btn-primary:hover, .btn-success:hover {
+  transform: scale(1.05);
+}
+
+/* Nearby orders list */
+.list-group-item {
+  padding: 15px 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* Alert Box */
+.alert {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+/* Form Controls */
+.form-check-input {
+  margin-right: 10px;
+}
+
+/* Use Current Location Button */
+.text-center button {
+  margin-bottom: 20px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .card, .table, .list-group-item {
+      padding: 15px;
   }
-  
-  /* Header styling */
-  h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #343a40; /* Dark gray */
-    margin-bottom: 20px;
+
+  .btn-primary, .btn-success {
+      width: 100%;
+      margin-top: 8px;
   }
-  
-  p {
-    font-size: 1.2rem;
-    color: #6c757d; /* Medium gray */
-  }
-  
-  /* Button styling */
-  .btn-primary {
-    background-color: #007bff; /* Primary blue */
-    border: none;
-    padding: 10px 20px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.05); /* Slight zoom effect */
-  }
-  
-  /* Center alignment */
-  .text-center {
-    text-align: center;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 2rem;
-    }
-  
-    p {
-      font-size: 1rem;
-    }
-  
-    .btn-primary {
-      font-size: 1rem;
-      padding: 8px 16px;
-    }
-  }
+}
+
