@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAssignedOrder, assignOrder, markOrderAsPickedUp, getAllAssignments } = require('../Controllers/deliveryAssignController');
+const { getAssignedOrder, assignOrder, markOrderAsPickedUp, getAllAssignments ,getAssignmentByOrderId } = require('../Controllers/deliveryAssignController');
 
 const authenticate = require('../middleware/auth');
 const router = express.Router();
@@ -15,5 +15,7 @@ router.post('/', authenticate, assignOrder);
 
 // Mark an order as picked up
 router.patch('/:assignmentId/pickup', authenticate, markOrderAsPickedUp);
+
+router.get('/order/:orderId', getAssignmentByOrderId);
 
 module.exports = router;

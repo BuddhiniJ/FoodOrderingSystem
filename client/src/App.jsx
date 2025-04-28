@@ -25,9 +25,8 @@ import EditOrder from './components/Customer/EditOrder';
 // Delivery Components
 import DeliveryHome from './components/delivery/deliveryHome';
 import DeliveryLocationUpdater from './components/delivery/DeliveryLocationUpdater';
-import AssignedOrderDetails from './components/delivery/AssignedOrderDetails';
-import OrderTracking from "./components/delivery/OrderTracking";
-
+import OrderDetails from './components/delivery/OrderDetails';
+import TrackDelivery from './components/delivery/TrackDelivery';
 
 const App = () => {
   return (
@@ -55,7 +54,7 @@ const App = () => {
           <Route element={<ProtectedRoute allowedRoles={['delivery-personnel']} />}>
             <Route path="/delivery" element={<DeliveryHome />} />
             <Route path="/location-updater" element={<DeliveryLocationUpdater />} />
-            <Route path="/assigned-order-details" element={<AssignedOrderDetails />} /> 
+            <Route path="/order-details/:id" element={<OrderDetails/>} />
             
           </Route>
 
@@ -67,7 +66,7 @@ const App = () => {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/myorders" element={<OrderHistory />} />
             <Route path="/edit-order/:id" element={<EditOrder />} />
-            <Route path="/track-order" element={<OrderTracking />} />
+             <Route path="/track-order" element={<TrackDelivery/>} />
 </Route>
         </Routes>
       </Router>

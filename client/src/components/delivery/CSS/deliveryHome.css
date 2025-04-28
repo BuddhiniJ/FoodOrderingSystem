@@ -92,6 +92,7 @@
 /* Use Current Location Button */
 .text-center button {
   margin-bottom: 20px;
+  
 }
 
 /* Responsive tweaks */
@@ -106,3 +107,22 @@
   }
 }
 
+.custom-container {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  height: 50%;
+  width: 80%;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-right: 20px;
+}
+
+.custom-container1 {
+  background-color: none;
+  border-radius: 0px;
+  border-color: none;
+  height: 100%;
+  width: 80%;
+  padding: 2rem;
+
+}
