@@ -11,24 +11,26 @@ const DeliveryHome = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!token || !user || user.role !== "delivery-personnel") {
-      navigate("/unauthorized"); // Redirect unauthorized users
+      navigate("/unauthorized");
     }
   }, [navigate]);
 
   return (
     <MainLayout>
-      <div className="container mt-5">
-        <h1 className="text-center">Welcome, Delivery Personnel!</h1>
-        <p className="text-center">
-          Use the button below to update your delivery location and availability.
-        </p>
-        <div className="text-center mt-4">
+      <div className="container d-flex flex-column justify-content-center align-items-center mt-5" style={{ minHeight: "80vh",contentAlign:"center" }}>
+        <div className="text-center">
+          <h1 className="mb-4 fw-bold" style={{textAlign:"center"}}>Welcome, Delivery Personnel! 🚚</h1>
+          <p className="lead text-muted mb-5" style={{textAlign:"center"}}>
+            Ready to deliver happiness? Click below to view nearby orders!
+          </p>
+          
           <button
-            className="btn btn-primary"
+            className="btn btn-primary btn-lg shadow px-5 py-2" 
             onClick={() => navigate("/location-updater")}
           >
-            Update Delivery Location
+            Find Orders Near Me
           </button>
+        
         </div>
       </div>
     </MainLayout>

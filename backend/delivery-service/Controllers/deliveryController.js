@@ -45,4 +45,23 @@ exports.saveLocation = async (req, res) => {
       error: error.message,
     });
   }
+  const io = req.app.get('io');
+  io.emit(`location-update-${req.user.id}`, {
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    userId: req.user.id,
+  });
+  res.json({ message: 'Location updated' });
+};
+
+exports.getLocationByUserId = async (req, res) => {
+  try {
+    const location = await Location.findOne({ userId: req.params.userId });
+    if (!location) {
+      return res.status(404).json({ message: 'Location not found' });
+    }
+    res.json(location);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
 };

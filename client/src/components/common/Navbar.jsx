@@ -25,6 +25,7 @@ const Navbar = () => {
             {user.role === 'restaurant-admin' && <Link to="/my-restaurants">My Restaurants</Link>}
             {user.role === 'customer' && <Link to="/cart" className="nav-link"> Cart </Link>}
             {user.role === 'customer' && <Link to="/myorders" className="nav-link"> My Orders </Link>}
+            {user.role === 'customer' && <Link to="/track-order" className="nav-link"> Tracker </Link>}
             <button onClick={handleLogout} className="logout-btn">Logout</button>
           </>
         ) : (
