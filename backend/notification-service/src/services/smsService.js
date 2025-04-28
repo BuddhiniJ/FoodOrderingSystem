@@ -11,23 +11,34 @@ const loadTemplate = (templateName) => {
   return require(templatePath);
 };
 
-// Send SMS using TextFree API
+// Send SMS using Text.lk API
 const sendSMS = async (to, message, notificationId = null) => {
   try {
-    // Format the phone number (remove any non-numeric characters)
-    const formattedPhone = to.replace(/\D/g, '');
+    // Format the phone number (ensure it has country code for Sri Lanka)
+    let formattedPhone = to.replace(/\D/g, '');
+    // Ensure the number starts with country code
+    if (!formattedPhone.startsWith('94')) {
+      // If number starts with 0, replace it with 94
+      if (formattedPhone.startsWith('0')) {
+        formattedPhone = '94' + formattedPhone.substring(1);
+      } else {
+        formattedPhone = '94' + formattedPhone;
+      }
+    }
     
-    // TextFree API endpoint (this is a placeholder - you'll need to use their actual API)
+    // Text.lk API endpoint
     const response = await axios.post(
-      'https://api.textfree.us/v1/message',
+      'https://app.text.lk/api/v3/sms/send',
       {
-        phone: formattedPhone,
-        message: message,
-        from: config.sms.fromNumber
+        recipient: formattedPhone,
+        sender_id: config.sms.senderId,
+        type: 'plain',
+        message: message
       },
       {
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
           'Authorization': `Bearer ${config.sms.apiKey}`
         }
       }

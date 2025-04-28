@@ -24,7 +24,7 @@ exports.sendOrderConfirmation = async (req, res) => {
 
     const results = {
       email: null,
-      sms: null
+      phone: null
     };
 
     // Send email notification if email is provided
@@ -34,7 +34,7 @@ exports.sendOrderConfirmation = async (req, res) => {
 
     // Send SMS notification if phone is provided
     if (phone) {
-      results.sms = await smsService.sendOrderConfirmation(phone, orderData);
+      results.phone = await smsService.sendOrderConfirmation(phone, orderData);
     }
 
     res.status(200).json({

@@ -64,25 +64,19 @@
       
       <div class="order-details">
         <h2>Order #{{orderNumber}}</h2>
-        <p><strong>Date:</strong> {{orderDate}}</p>
-        <p><strong>Restaurant:</strong> {{restaurantName}}</p>
+        <p><strong>Date:</strong> {{orderDate}}</p>        
         
         <h3>Items:</h3>
         {{orderItems}}
         
         <div class="total">
           <p>Subtotal: {{subtotal}}</p>
-          <p>Delivery Fee: {{deliveryFee}}</p>
+          <!-- <p>Delivery Fee: {{deliveryFee}}</p> -->
           <p>Total: {{total}}</p>
         </div>
-        
-        <p><strong>Delivery Address:</strong><br>
-        {{deliveryAddress}}</p>
-        
+               
         <p><strong>Estimated Delivery Time:</strong> {{estimatedDeliveryTime}}</p>
-      </div>
-      
-      <a href="{{trackingLink}}" class="button">Track Your Order</a>
+      </div>     
       
       <p>If you have any questions about your order, please contact our customer support.</p>
       

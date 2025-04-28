@@ -7,7 +7,7 @@ module.exports = {
     },
     sms: {
       apiKey: process.env.SMS_API_KEY,
-      fromNumber: process.env.SMS_FROM_NUMBER
+      senderId: process.env.SMS_SENDER_ID 
     },
     rateLimits: {
       windowMs: 15 * 60 * 1000, // 15 minutes
