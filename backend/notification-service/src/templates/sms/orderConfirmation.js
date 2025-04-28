@@ -1,3 +1,3 @@
 module.exports = (data) => {
-  return `Your order #${data.orderNumber} has been confirmed! Total: ${data.total}. Est. delivery: ${data.estimatedDeliveryTime}.`;
+  return `Hello ${data.customerName}, Your order #${data.orderNumber} has been confirmed! Your Items: ${data.orderItemssms}. Total: ${data.total}.`;
 };
