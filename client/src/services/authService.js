@@ -12,7 +12,9 @@ export const login = async (credentials) => {
   
   if (response.data.token) {
     localStorage.setItem('token', response.data.token);
-    localStorage.setItem('user', JSON.stringify(response.data.user));
+    const userRes = await getCurrentUser();
+    localStorage.setItem('user', JSON.stringify(userRes.data));
+    return { ...response.data, user: userRes.data };
   }
   
   return response.data;
