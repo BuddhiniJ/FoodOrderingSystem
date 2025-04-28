@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MainLayout from "../layout/MainLayout";
+import { AuthContext } from "../../context/AuthContext";
 
 const LocationUpdater = () => {
   const [location, setLocation] = useState(null);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
-  const [orders, setOrders] = useState({});
+  const [orders, setOrders] = useState({});  
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     getLocation();
@@ -37,13 +39,14 @@ const LocationUpdater = () => {
     try {
       const res = await axios.get("http://localhost:5003/api/restaurants");
       const nearby = res.data.filter((restaurant) => {
-        return calculateDistance(lat, lng, restaurant.latitude, restaurant.longitude) <= 5; // within 5km
+        return calculateDistance(lat, lng, restaurant.latitude, restaurant.longitude) <= 10;
       });
       setNearbyRestaurants(nearby);
 
       const ordersPromises = nearby.map((restaurant) =>
-        axios.get(`http://localhost:5004/api/orders/restaurant/${restaurant._id}?status=ready-for-delivery`)
-          .then(res => ({ restaurantId: restaurant._id, orders: res.data }))
+        axios
+          .get(`http://localhost:5004/api/orders/restaurant/${restaurant._id}?status=ready-for-delivery`)
+          .then((res) => ({ restaurantId: restaurant._id, orders: res.data }))
       );
 
       const ordersArray = await Promise.all(ordersPromises);
@@ -53,7 +56,6 @@ const LocationUpdater = () => {
       });
 
       setOrders(ordersMap);
-
     } catch (error) {
       console.error("Error fetching restaurants:", error);
     }
@@ -64,9 +66,10 @@ const LocationUpdater = () => {
     const R = 6371; // km
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   };
@@ -89,7 +92,7 @@ const LocationUpdater = () => {
         {
           headers: { Authorization: `Bearer ${token}` },
         }
-      );
+      );     
 
       await axios.patch(
         `http://localhost:5004/api/orders/${order._id}/status`,
@@ -97,15 +100,52 @@ const LocationUpdater = () => {
         {
           headers: { Authorization: `Bearer ${token}` },
         }
+      );      
+
+      const customerResponse = await axios.get(
+        `http://localhost:5001/api/users/${order.customerId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("Customer Data:", customerResponse.data.data.name);
+
+      // --- Notification Service Call ---
+      const assignmentData = {
+        orderNumber: order.reference, 
+        deliveryPersonName: user.name,
+        deliveryPersonPhone: user.phone,
+        restaurantName: restaurant.name,        
+        pickupTime: new Date().toLocaleTimeString(),
+        deliveryAddress: `${customerResponse.data.data.address.street} ${customerResponse.data.data.address.city} ${customerResponse.data.data.address.zipCode} ${customerResponse.data.data.address.country}`, 
+        customerName: customerResponse.data.data.name || "",                
+        acceptLink: `http://localhost:5173/order-details/${order._id}`,
+        currentYear: new Date().getFullYear(),
+      };
+
+      await axios.post(
+        "http://localhost:5002/api/notifications/delivery-assignment",
+        {
+          email: customerResponse.data.data.email,
+          phone: customerResponse.data.data.phone,
+          assignmentData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
 
-      alert("Order accepted successfully!");
+      alert("Order accepted and notification sent!");
     } catch (error) {
       console.error("Error accepting order:", error);
       alert("Failed to accept order.");
     }
   };
-
+  
+  
   return (
     <MainLayout>
       <div className="container mt-5">

@@ -17,7 +17,7 @@ router.put('/profile', protect, updateProfile);
 
 // Routes for admin only - apply middleware to these routes only
 router.use(protect);
-router.use(authorize('restaurant-admin'));
+router.use(authorize('restaurant-admin', 'delivery-personnel'));
 
 router.route('/')
   .get(getUsers)
