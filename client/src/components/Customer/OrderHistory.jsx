@@ -12,7 +12,7 @@ const OrderHistory = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`http://localhost:5004/api/orders/user/${user.id}`);
+        const res = await axios.get(`http://localhost:5004/api/orders/user/${user._id}`);
         setOrders(res.data);
       } catch (err) {
         console.error('Failed to fetch orders', err);
@@ -21,17 +21,80 @@ const OrderHistory = () => {
       }
     };
 
-    if (user?.id) fetchOrders();
+    if (user?._id) fetchOrders();
   }, [user]);
+
+  // format order items for the notification
+  const formatOrderItemsemail = (items) => {
+    return items.map(item => 
+      `<div class="order-item">${item.quantity}x ${item.name} - Rs. ${item.price * item.quantity}</div>`
+    ).join('');
+  };
+
+  const formatOrderItemssms = (items) => {
+    return items.map(item => 
+      `${item.quantity}x ${item.name} - Rs. ${item.price * item.quantity}`
+    ).join(', ');
+  };
+
+  const sendOrderConfirmation = async (order) => {
+    try {      
+
+      const orderData = {
+        orderNumber: order.reference,
+        orderId: order._id,
+        userId: user._id,
+        customerName: user.name,
+        orderDate: new Date(order.createdAt).toLocaleString(),        
+        orderItemsemail: formatOrderItemsemail(order.items),
+        orderItemssms: formatOrderItemssms(order.items),        
+        subtotal: `Rs. ${(order.totalAmount - (order.deliveryFee || 0)).toFixed(2)}`,
+        // deliveryFee: `Rs. ${(order.deliveryFee || 0).toFixed(2)}`,
+        total: `Rs. ${order.totalAmount.toFixed(2)}`,            
+        currentYear: new Date().getFullYear()
+      };
+
+      const token = localStorage.getItem('token');
+
+      await axios.post(
+        'http://localhost:5002/api/notifications/order-confirmation',
+        {
+          email: user.email,
+          phone: user.phone,
+         orderData
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      console.log(`Order confirmation sent for order ${order.reference}`);
+    } catch (error) {
+      console.error('Failed to send order confirmation:', error.message);
+    }
+  };
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.patch(`http://localhost:5004/api/orders/${orderId}/status`, { status: newStatus });
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order._id === orderId ? { ...order, status: newStatus } : order
-        )
+      
+      // Update the orders state
+      const updatedOrders = orders.map((order) =>
+        order._id === orderId ? { ...order, status: newStatus } : order
       );
+      
+      setOrders(updatedOrders);
+      
+      // If the new status is 'confirmed', send the confirmation notification
+      if (newStatus === 'confirmed') {
+        const confirmedOrder = updatedOrders.find(order => order._id === orderId);
+        if (confirmedOrder) {
+          await sendOrderConfirmation(confirmedOrder);
+        }
+      }
     } catch (err) {
       console.error('Failed to update order status', err);
     }
@@ -61,7 +124,7 @@ const OrderHistory = () => {
                   {order.items.map((item, idx) => (
                     <li key={idx} className="order-item">
                       <div className="item-details">
-                        {item.name} x {item.quantity} — Rs. {item.price * item.quantity}
+                        {item.name} x {item.quantity} - Rs. {item.price * item.quantity}
                       </div>
                       {item.note && <div className="item-note">Note: {item.note}</div>}
                     </li>
