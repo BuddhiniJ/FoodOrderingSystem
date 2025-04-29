@@ -101,6 +101,37 @@ exports.sendOrderConfirmation = async (phone, orderData) => {
   }
 };
 
+// Send order confirmation SMS
+exports.sendOrderPaymentConfirmation = async (phone, orderData) => {
+  try {
+    // Create notification record
+    const notification = await Notification.create({
+      type: 'sms',
+      recipient: phone,
+      templateData: orderData,
+      metadata: {
+        orderId: orderData.orderId,
+        userId: orderData.userId
+      }
+    });
+
+    // Get template function and generate message
+    const templateFn = loadTemplate('orderPaymentConfirmation');
+    const message = templateFn(orderData);
+    
+    // Set message content in notification
+    await Notification.findByIdAndUpdate(notification._id, {
+      content: { body: message }
+    });
+    
+    // Send SMS
+    return await sendSMS(phone, message, notification._id);
+  } catch (error) {
+    logger.error(`Order payment confirmation SMS error: ${error.message}`);
+    return { success: false, error: error.message };
+  }
+};
+
 // Send delivery assignment SMS
 exports.sendDeliveryAssignment = async (phone, assignmentData) => {
   try {
