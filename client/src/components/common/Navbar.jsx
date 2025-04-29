@@ -27,6 +27,10 @@ const Navbar = () => {
             {user.role === "restaurant-admin" && (
               <Link to="/my-restaurants">My Restaurants</Link>
             )}
+
+            {user.role === "restaurant-admin" && (
+              <Link to="/resturants-payments">My Payments</Link>
+            )}
             {user.role === "customer" && (
               <Link to="/cart" className="nav-link">
                 {" "}
