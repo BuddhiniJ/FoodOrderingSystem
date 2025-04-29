@@ -24,12 +24,14 @@ const CheckoutForm = ({
 
   const { user } = useContext(AuthContext);
 
+  const RESTURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
+  const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
+  const PAYMENT_API = import.meta.env.VITE_PAYMENT_SERVICE_URL;
+  const NOTIFICATION_API = import.meta.env.VITE_NOTIFICATION_SERVICE_URL;
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5004/api/orders/${orderId}`
-        );
+        const response = await axios.get(`${ORDER_API}/orders/${orderId}`);
         setOrder(response.data);
       } catch (error) {
         console.error("Error fetching order:", error);
@@ -42,7 +44,7 @@ const CheckoutForm = ({
     const fetchResturant = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5003/api/restaurants/${restaurantId}`
+          `${RESTURANT_API}/restaurants/${restaurantId}`
         );
         setResturant(response.data);
       } catch (error) {
@@ -90,7 +92,7 @@ const CheckoutForm = ({
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:5002/api/notifications/order-payconfirmation",
+        `${NOTIFICATION_API}/notifications/order-payconfirmation`,
         {
           email: user.email,
           phone: user.phone,
@@ -115,16 +117,13 @@ const CheckoutForm = ({
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        `http://localhost:5006/api/payments/create-payment-intent`,
-        {
-          amount: total,
-          orderId,
-          restaurantId,
-          userId,
-          paymentMethod,
-        }
-      );
+      const res = await axios.post(`${PAYMENT_API}/create-payment-intent`, {
+        amount: total,
+        orderId,
+        restaurantId,
+        userId,
+        paymentMethod,
+      });
 
       const { clientSecret } = res.data;
 

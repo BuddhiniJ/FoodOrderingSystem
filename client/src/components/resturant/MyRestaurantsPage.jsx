@@ -8,19 +8,24 @@ const MyRestaurantsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const RESTAURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
+
   useEffect(() => {
     const fetchMyRestaurants = async () => {
       try {
-        const response = await axios.get('http://localhost:5003/api/restaurants/my-restaurants', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-          },
-          params: {
-            _: Date.now(),
+        const response = await axios.get(
+          `${RESTAURANT_API}/restaurants/my-restaurants`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Cache-Control": "no-cache",
+              Pragma: "no-cache",
+            },
+            params: {
+              _: Date.now(),
+            },
           }
-        });
+        );
 
         if (response.data && Array.isArray(response.data)) {
           setRestaurants(response.data);
@@ -108,7 +113,7 @@ const MyRestaurantsPage = () => {
                     <p className="detail-value">{restaurant.description}</p>
                   </div>
                 </div>
-                
+
               </div>
                   </Link>
 

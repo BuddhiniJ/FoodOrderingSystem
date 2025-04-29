@@ -11,6 +11,12 @@ const LocationUpdater = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
+  const DELIVERY_API = import.meta.env.VITE_DELIVERY_SERVICE_URL;
+  const RESTAURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
+  const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
+  const USER_API = import.meta.env.VITE_USER_SERVICE_URL;
+  const NOTIFICATION_API = import.meta.env.VITE_NOTIFICATION_SERVICE_URL;
+
   useEffect(() => {
     getLocation();
   }, []);
@@ -41,7 +47,7 @@ const LocationUpdater = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:5005/api/location",
+        `${DELIVERY_API}/location`,
         {
           latitude: loc.latitude,
           longitude: loc.longitude,
@@ -58,7 +64,7 @@ const LocationUpdater = () => {
 
   const fetchRestaurants = async (lat, lng) => {
     try {
-      const res = await axios.get("http://localhost:5003/api/restaurants");
+      const res = await axios.get(`${RESTAURANT_API}/restaurants`);
       const nearby = res.data.filter((restaurant) => {
         return calculateDistance(lat, lng, restaurant.latitude, restaurant.longitude) <= 100;
       });
@@ -66,7 +72,9 @@ const LocationUpdater = () => {
 
       const ordersPromises = nearby.map((restaurant) =>
         axios
-          .get(`http://localhost:5004/api/orders/restaurant/${restaurant._id}?status=ready-for-delivery`)
+          .get(
+            `${ORDER_API}/orders/restaurant/${restaurant._id}?status=ready-for-delivery`
+          )
           .then((res) => ({ restaurantId: restaurant._id, orders: res.data }))
       );
 
@@ -101,7 +109,7 @@ const LocationUpdater = () => {
 
       // Step 1: Assign the delivery
       await axios.post(
-        "http://localhost:5005/api/assignments",
+        `${DELIVERY_API}/assignments`,
         {
           orderId: order._id,
           customerId: order.customerId,
@@ -118,7 +126,7 @@ const LocationUpdater = () => {
 
       // ✅ Step 2: Directly update order status to 'out-for-delivery'
       await axios.patch(
-        `http://localhost:5004/api/orders/${order._id}/status`,
+        `${ORDER_API}/orders/${order._id}/status`,
         { status: "out-for-delivery" },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -127,7 +135,7 @@ const LocationUpdater = () => {
 
       // Step 3: Fetch customer details
       const customerResponse = await axios.get(
-        `http://localhost:5001/api/users/${order.customerId}`,
+        `${USER_API}/users/${order.customerId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -143,12 +151,12 @@ const LocationUpdater = () => {
         pickupTime: new Date().toLocaleTimeString(),
         deliveryAddress: `${customer.address.street} ${customer.address.city} ${customer.address.zipCode} ${customer.address.country}`,
         customerName: customer.name || "",
-        acceptLink: `http://localhost:5173/order-details/${order._id}`,
+        acceptLink: `${ORDER_API}/order-details/${order._id}`,
         currentYear: new Date().getFullYear(),
       };
 
       await axios.post(
-        "http://localhost:5002/api/notifications/delivery-assignment",
+        `${NOTIFICATION_API}/notifications/delivery-assignment`,
         {
           email: customer.email,
           phone: customer.phone,

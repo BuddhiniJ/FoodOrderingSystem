@@ -10,10 +10,13 @@ const RestaurantOrders = () => {
   const [dateFilter, setDateFilter] = useState({ startDate: '', endDate: '' });
   const [activeTab, setActiveTab] = useState('pending'); // Track active tab status
 
+   const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
+
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`http://localhost:5004/api/orders/restaurant/${id}`);
+        const res = await axios.get(`${ORDER_API}/orders/restaurant/${id}`);
         setOrders(res.data);
       } catch (err) {
         console.error('Failed to fetch orders:', err);
@@ -27,7 +30,9 @@ const RestaurantOrders = () => {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      await axios.patch(`http://localhost:5004/api/orders/${orderId}/status`, { status: newStatus });
+      await axios.patch(`${ORDER_API}/orders/${orderId}/status`, {
+        status: newStatus,
+      });
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order._id === orderId ? { ...order, status: newStatus } : order

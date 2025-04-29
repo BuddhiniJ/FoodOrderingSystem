@@ -12,11 +12,14 @@ const MyPayments = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  const PAYMENT_API = import.meta.env.VITE_PAYMENT_SERVICE_URL;
+
+
   useEffect(() => {
     const fetchPayments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5006/api/payments/user/${user._id}`
+          `${PAYMENT_API}/payments/user/${user._id}`
         );
         setPayments(response.data);
       } catch (error) {
@@ -36,9 +39,7 @@ const MyPayments = () => {
 
     setDeleting(true);
     try {
-      await axios.delete(
-        `http://localhost:5006/api/payments/${selectedPayment._id}`
-      );
+      await axios.delete(`${PAYMENT_API}/payments/${selectedPayment._id}`);
       setPayments(
         payments.filter((payment) => payment._id !== selectedPayment._id)
       );
