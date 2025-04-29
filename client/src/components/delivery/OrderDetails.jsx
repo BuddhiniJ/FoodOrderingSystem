@@ -36,13 +36,13 @@ const OrderDetails = () => {
           <ul>
             {order.items.map((item) => (
               <li key={item.itemId}>
-                {item.name} x {item.quantity} — ₹{item.price}
+                {item.name} x {item.quantity} — Rs. {item.price}
               </li>
             ))}
           </ul>
 
           <h6 className="mt-4">Total Amount:</h6>
-          <p><strong>₹{order.totalAmount}</strong></p>
+          <p><strong>Rs. {order.totalAmount}</strong></p>
 
           <p className="mt-4 text-muted">
             Created at: {new Date(order.createdAt).toLocaleString()}

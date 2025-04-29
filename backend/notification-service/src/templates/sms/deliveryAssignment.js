@@ -1,4 +1,3 @@
 module.exports = (data) => {
-    return `New delivery assignment: Order #${data.orderNumber} from ${data.restaurantName}. Pickup at: ${data.pickupTime}. Customer: ${data.customerName}, ${data.customerPhone}. Accept: ${data.acceptLink}`;
-  };
-  
+  return `Hello ${data.customerName}, your order #${data.orderNumber} from ${data.restaurantName} is on its way! Delivery by ${data.deliveryPersonName} (${data.deliveryPersonPhone}), picked up at ${data.pickupTime}. Address: ${data.deliveryAddress}`;
+};

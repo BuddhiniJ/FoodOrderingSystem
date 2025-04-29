@@ -1,90 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>New Delivery Assignment</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .header {
-      background-color: #4a90e2;
-      color: white;
-      padding: 10px 20px;
-      text-align: center;
-    }
-    .content {
-      padding: 20px;
-      background-color: #f9f9f9;
-    }
-    .footer {
-      text-align: center;
-      padding: 10px;
-      font-size: 12px;
-      color: #999;
-    }
-    .order-details {
-      margin: 20px 0;
-    }
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #4a90e2;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      margin-top: 20px;
-    }
-    .map {
-      margin: 20px 0;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>New Delivery Assignment</h1>
-    </div>
-    <div class="content">
-      <p>Hello {{deliveryPersonName}},</p>
-      <p>You have been assigned a new delivery order. Please review the details below:</p>
-      
-      <div class="order-details">
-        <h2>Order #{{orderNumber}}</h2>
-        <p><strong>Restaurant:</strong> {{restaurantName}}</p>
-        <p><strong>Restaurant Address:</strong><br>
-        {{restaurantAddress}}</p>
-        
-        <p><strong>Pickup Time:</strong> {{pickupTime}}</p>
-        
-        <p><strong>Delivery Address:</strong><br>
-        {{deliveryAddress}}</p>
-        
-        <p><strong>Customer:</strong> {{customerName}}</p>
-        <p><strong>Customer Phone:</strong> {{customerPhone}}</p>
-        
-        <div class="map">
-          <a href="{{mapLink}}" class="button">View on Map</a>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your Order is Out for Delivery!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f6f6f6;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        background: #fff;
+        max-width: 600px;
+        margin: 30px auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .header {
+        background: #4caf50;
+        color: #fff;
+        padding: 24px 32px;
+        border-radius: 8px 8px 0 0;
+      }
+      .content {
+        padding: 32px;
+      }
+      .order-details {
+        background: #f9f9f9;
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 24px;
+      }
+      .cta {
+        display: inline-block;
+        margin-top: 24px;
+        padding: 12px 28px;
+        background: #4caf50;
+        color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .footer {
+        color: #888;
+        font-size: 13px;
+        text-align: center;
+        padding: 24px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Your Order is On Its Way!</h1>
       </div>
-      
-      <a href="{{acceptLink}}" class="button">Accept Delivery</a>
-      
-      <p>Please confirm this assignment within 5 minutes.</p>
-      
-      <p>Thank you for your service!</p>
+      <div class="content">
+        <p>Hi <strong>{{customerName}}</strong>,</p>
+        <p>
+          Great news! Your order <strong>#{{orderNumber}}</strong> from
+          <strong>{{restaurantName}}</strong> is out for delivery now. 
+        </p>
+        <div class="order-details">
+          <strong>Delivery Person name:</strong>
+          {{deliveryPersonName}}<br />
+          <strong>Delivery Person Phone:</strong>
+          {{deliveryPersonPhone}}<br />
+          <strong>Pick up Time:</strong>
+          {{pickupTime}}<br />
+          <strong>Delivery Address:</strong><br />
+          {{deliveryAddress}}
+        </div>  
+        <a href="{{acceptLink}}" class="cta">Track Your Order</a>
+        <p style="margin-top: 32px">
+          If you have any questions, please reply to this email or contact our
+          support team.
+        </p>
+        <p>Thank you for choosing <strong>Food Delivery Platform</strong>!</p>
+      </div>
+      <div class="footer">
+        &copy; {{currentYear}} Food Delivery Platform. All rights reserved.
+      </div>
     </div>
-    <div class="footer">
-      <p>&copy; {{currentYear}} Food Delivery Platform. All rights reserved.</p>
-    </div>
-  </div>
-</body>
+  </body>
 </html>

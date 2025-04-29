@@ -113,7 +113,7 @@ exports.sendDeliveryAssignment = async (email, assignmentData) => {
       type: 'email',
       recipient: email,
       content: {
-        subject: `New Delivery Assignment #${assignmentData.orderNumber}`,
+        subject: `Order Delivery #${assignmentData.orderNumber}`,
       },
       templateData: assignmentData,
       metadata: {
@@ -129,7 +129,7 @@ exports.sendDeliveryAssignment = async (email, assignmentData) => {
     // Send email
     return await sendEmail(
       email,
-      `New Delivery Assignment #${assignmentData.orderNumber}`,
+      `Order Delivery #${assignmentData.orderNumber}`,
       htmlContent,
       notification._id
     );
