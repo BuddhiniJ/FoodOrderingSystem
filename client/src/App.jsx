@@ -5,15 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
-// Components
-import Home from "./components/Home";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
-import Profile from "./components/profile/Profile";
-import UpdateProfile from "./components/profile/UpdateProfile";
-import UserManagement from "./components/admin/UserManagement";
+=
 
-import PaymentPage from "./components/payment/PaymentPage";
 import Pay from "./pages/Pay";
 import PaymentSuccess from "./components/payment/PaymentSuccess";
 import OrderConfirmation from "./pages/OrderConformation";
@@ -26,7 +19,10 @@ import UserManagement from './components/admin/UserManagement';
 
 // buddhini
 
-
+import MyRestaurantsPage from './components/resturant/MyRestaurantsPage';
+import RegisterRestaurant from './components/resturant/RegisterRestaurant';
+import ResturantView from './components/resturant/ResturantView';
+import EditResturant from './components/resturant/EditResturant';
 import RestaurantsList from './components/Customer/RestaurantsList';
 import MenuPage from './components/Customer/MenuPage';
 import CartPage from './components/Customer/CartPage';
@@ -51,11 +47,6 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/pay" element={<Pay />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/order-confirmation" element={<OrderConfirmation />} />
-
           {/* Protected Routes for all authenticated users */}
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
@@ -65,17 +56,21 @@ const App = () => {
           {/* Admin Routes */}
           <Route element={<ProtectedRoute allowedRoles={['restaurant-admin']} />}>
             <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/my-restaurants" element={<MyRestaurantsPage />} />
+            <Route path="/add-restaurant" element={<RegisterRestaurant />} />
+            <Route path="/view-restaurant/:id" element={<ResturantView />} />
+            <Route path="/edit-restaurant/:id" element={<EditResturant />} />
           </Route>
 
           {/* Delivery Personnel Routes */}
           <Route element={<ProtectedRoute allowedRoles={['delivery-personnel']} />}>
             <Route path="/delivery" element={<DeliveryHome />} />
             <Route path="/location-updater" element={<DeliveryLocationUpdater />} />
-            <Route path="/order-details/:id" element={<OrderDetails/>} />
-            
+            <Route path="/order-details/:id" element={<OrderDetails />} />
+
           </Route>
 
-          {/*Buddhini */} 
+          {/*Buddhini */}
           {/* User Routes */}
           <Route element={<ProtectedRoute allowedRoles={['customer']} />}>
             <Route path="/restaurantsList" element={<RestaurantsList />} />
@@ -83,8 +78,8 @@ const App = () => {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/myorders" element={<OrderHistory />} />
             <Route path="/edit-order/:id" element={<EditOrder />} />
-             <Route path="/track-order" element={<TrackDelivery/>} />
-</Route>
+            <Route path="/track-order" element={<TrackDelivery />} />
+          </Route>
         </Routes>
       </Router>
     </AuthProvider>

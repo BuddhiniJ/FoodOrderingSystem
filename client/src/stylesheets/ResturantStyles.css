@@ -2419,3 +2419,192 @@ input:checked+.toggle-slider:before {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+/* EditOrder.css - Stylesheet for the Edit Order page */
+
+.editOrder-container {
+    max-width: 42rem;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .editOrder-heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.75rem;
+  }
+
+  .editOrder-orderNumber {
+    font-weight: 600;
+    color: #4b5563;
+  }
+
+  .editOrder-item {
+    margin-bottom: 1.25rem;
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .editOrder-item:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .editOrder-itemName {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+
+  .editOrder-formGroup {
+    margin-bottom: 1rem;
+  }
+
+  .editOrder-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 0.25rem;
+  }
+
+  .editOrder-quantityInput {
+    width: 5rem;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .editOrder-quantityInput:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+
+  .editOrder-noteTextarea {
+    width: 100%;
+    min-height: 5rem;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    resize: vertical;
+  }
+
+  .editOrder-noteTextarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+
+  .editOrder-buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+
+  .editOrder-cancelButton {
+    background-color: #e5e7eb;
+    color: #4b5563;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .editOrder-cancelButton:hover {
+    background-color: #d1d5db;
+  }
+
+  .editOrder-saveButton {
+    background-color: #2563eb;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+  }
+
+  .editOrder-saveButton:hover {
+    background-color: #1d4ed8;
+  }
+
+  .editOrder-saveButton svg {
+    margin-right: 0.5rem;
+  }
+
+  .editOrder-loadingState {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .editOrder-errorState {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #dc2626;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    margin: 2rem auto;
+    max-width: 42rem;
+  }
+
+  /* Animation for loading state */
+  .editOrder-loadingDots:after {
+    content: '.';
+    animation: dots 1.5s steps(5, end) infinite;
+  }
+
+  @keyframes dots {
+    0%, 20% {
+      content: '.';
+    }
+    40% {
+      content: '..';
+    }
+    60% {
+      content: '...';
+    }
+    80%, 100% {
+      content: '';
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .editOrder-container {
+      margin: 1rem;
+      padding: 1rem;
+    }
+
+    .editOrder-buttonContainer {
+      flex-direction: column-reverse;
+      gap: 0.75rem;
+    }
+
+    .editOrder-saveButton,
+    .editOrder-cancelButton {
+      width: 100%;
+      justify-content: center;
+    }
+  }
