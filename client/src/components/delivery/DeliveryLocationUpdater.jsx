@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 const LocationUpdater = () => {
   const [location, setLocation] = useState(null);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
-  const [orders, setOrders] = useState({});  
+  const [orders, setOrders] = useState({});
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
@@ -19,11 +19,13 @@ const LocationUpdater = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setLocation({
+          const loc = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-          });
-          fetchRestaurants(position.coords.latitude, position.coords.longitude);
+          };
+          setLocation(loc);
+          updateLocationOnServer(loc);
+          fetchRestaurants(loc.latitude, loc.longitude);
         },
         (error) => {
           console.error(error);
@@ -35,11 +37,30 @@ const LocationUpdater = () => {
     }
   };
 
+  const updateLocationOnServer = async (loc) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        "http://localhost:5005/api/location",
+        {
+          latitude: loc.latitude,
+          longitude: loc.longitude,
+          availability: true,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  };
+
   const fetchRestaurants = async (lat, lng) => {
     try {
       const res = await axios.get("http://localhost:5003/api/restaurants");
       const nearby = res.data.filter((restaurant) => {
-        return calculateDistance(lat, lng, restaurant.latitude, restaurant.longitude) <= 10;
+        return calculateDistance(lat, lng, restaurant.latitude, restaurant.longitude) <= 100;
       });
       setNearbyRestaurants(nearby);
 
@@ -78,6 +99,7 @@ const LocationUpdater = () => {
     try {
       const token = localStorage.getItem("token");
 
+      // Step 1: Assign the delivery
       await axios.post(
         "http://localhost:5005/api/assignments",
         {
@@ -92,33 +114,35 @@ const LocationUpdater = () => {
         {
           headers: { Authorization: `Bearer ${token}` },
         }
-      );     
+      );
 
+      // ✅ Step 2: Directly update order status to 'out-for-delivery'
       await axios.patch(
         `http://localhost:5004/api/orders/${order._id}/status`,
         { status: "out-for-delivery" },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
-      );      
+      );
 
+      // Step 3: Fetch customer details
       const customerResponse = await axios.get(
         `http://localhost:5001/api/users/${order.customerId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("Customer Data:", customerResponse.data.data.name);
+      const customer = customerResponse.data.data;
 
-      // --- Notification Service Call ---
+      // Step 4: Send notification to customer
       const assignmentData = {
-        orderNumber: order.reference, 
+        orderNumber: order.reference,
         deliveryPersonName: user.name,
         deliveryPersonPhone: user.phone,
-        restaurantName: restaurant.name,        
+        restaurantName: restaurant.name,
         pickupTime: new Date().toLocaleTimeString(),
-        deliveryAddress: `${customerResponse.data.data.address.street} ${customerResponse.data.data.address.city} ${customerResponse.data.data.address.zipCode} ${customerResponse.data.data.address.country}`, 
-        customerName: customerResponse.data.data.name || "",                
+        deliveryAddress: `${customer.address.street} ${customer.address.city} ${customer.address.zipCode} ${customer.address.country}`,
+        customerName: customer.name || "",
         acceptLink: `http://localhost:5173/order-details/${order._id}`,
         currentYear: new Date().getFullYear(),
       };
@@ -126,8 +150,8 @@ const LocationUpdater = () => {
       await axios.post(
         "http://localhost:5002/api/notifications/delivery-assignment",
         {
-          email: customerResponse.data.data.email,
-          phone: customerResponse.data.data.phone,
+          email: customer.email,
+          phone: customer.phone,
           assignmentData,
         },
         {
@@ -138,14 +162,15 @@ const LocationUpdater = () => {
         }
       );
 
-      alert("Order accepted and notification sent!");
+      alert("Order assigned, status updated, and notification sent successfully!");
+
+      navigate(`/order-details/${order._id}`);
     } catch (error) {
       console.error("Error accepting order:", error);
       alert("Failed to accept order.");
     }
   };
-  
-  
+
   return (
     <MainLayout>
       <div className="container mt-5">

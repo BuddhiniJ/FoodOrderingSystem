@@ -3,27 +3,21 @@ const mongoose = require('mongoose');
 const LocationSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
     required: true,
+    ref: 'User'
   },
   location: {
-    latitude: {
-      type: Number,
-      required: true,
-    },
-    longitude: {
-      type: Number,
-      required: true,
-    },
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true }
   },
   availability: {
     type: Boolean,
-    default: true, // Assume delivery personnel is available by default
+    default: true
   },
   timestamp: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('Location', LocationSchema);

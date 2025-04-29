@@ -69,14 +69,9 @@ const App = () => {
           </Route>
 
           {/* Delivery Personnel Routes */}
-          <Route
-            element={<ProtectedRoute allowedRoles={["delivery-personnel"]} />}
-          >
+          <Route element={<ProtectedRoute allowedRoles={["delivery-personnel"]} />}>
             <Route path="/delivery" element={<DeliveryHome />} />
-            <Route
-              path="/location-updater"
-              element={<DeliveryLocationUpdater />}
-            />
+            <Route path="/location-updater" element={<DeliveryLocationUpdater />}/>
             <Route path="/order-details/:id" element={<OrderDetails />} />
           </Route>
 

@@ -3,43 +3,41 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const connectDB = require('./Config/db'); // Import the database connection function
+const connectDB = require('./Config/db');
 const http = require('http');
-
-// Initialize app first
-const app = express();
-
-// Then create the server
-const server = http.createServer(app);
-const { Server } = require('socket.io');
-const io = new Server(server, { cors: { origin: "*" } });
-
-app.set('io', io);
-
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
-});
 
 // Load env vars
 dotenv.config();
 
+// Initialize app
+const app = express();
+
+// Create the server
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server, { cors: { origin: '*' } });
+
+// Attach io instance to app for later use
+app.set('io', io);
+
+// Handle socket connection
+io.on('connection', (socket) => {
+  console.log('Client connected:', socket.id);
+});
+
 // Connect to database
 connectDB();
 
-// Route files
+// Import route files
 const locationRoutes = require('./Routes/delivery');
 const assignmentRoutes = require('./Routes/deliveryAssignment');
 
-// Body parser
-app.use(express.json());
+// Middlewares
+app.use(express.json()); // Body parser
+app.use(cors()); // Enable CORS
+app.use(helmet()); // Set security headers
 
-// Enable CORS
-app.use(cors());
-
-// Set security headers
-app.use(helmet());
-
-// Dev logging middleware
+// Logging middleware in development only
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
@@ -53,8 +51,10 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Delivery Service API' });
 });
 
+// Set PORT
 const PORT = process.env.PORT || 5005;
 
-server.listen(PORT, () => { // <-- use 'server.listen' instead of 'app.listen'
-  console.log(`Delivery Service running on port ${PORT}`);
+// Start server
+server.listen(PORT, () => {
+  console.log(`🚚 Delivery Service running on port ${PORT}`);
 });

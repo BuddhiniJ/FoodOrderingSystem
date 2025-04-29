@@ -1,21 +1,33 @@
 const express = require('express');
-const { getAssignedOrder, assignOrder, markOrderAsPickedUp, getAllAssignments ,getAssignmentByOrderId } = require('../Controllers/deliveryAssignController');
+const router = express.Router();
+const {
+  getAssignedOrder,
+  createAssignment,
+  markOrderAsPickedUp,
+  getAllAssignments,
+  getAssignmentByOrderId,
+  deleteAssignment
+} = require('../Controllers/deliveryAssignController');
 
 const authenticate = require('../middleware/auth');
-const router = express.Router();
 
-// Get assigned order for a delivery personnel
+
+// Get latest assigned order
 router.get('/', authenticate, getAssignedOrder);
 
-// Get all assignments for a delivery personnel
+// Get all assignments
 router.get('/all', authenticate, getAllAssignments);
 
-// Assign an order to a delivery personnel
-router.post('/', authenticate, assignOrder);
+// Assign new order
+router.post('/', authenticate, createAssignment);
 
-// Mark an order as picked up
+// Mark order as picked up
 router.patch('/:assignmentId/pickup', authenticate, markOrderAsPickedUp);
 
-router.get('/order/:orderId', getAssignmentByOrderId);
+// Get assignment by order ID
+router.get('/order/:orderId', authenticate, getAssignmentByOrderId);
+
+// Delete an assignment
+router.delete('/:id', authenticate, deleteAssignment);
 
 module.exports = router;

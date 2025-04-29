@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
-const User = require('../../user-service/src/models/User'); // Import the User model from the user-service
 
-const authenticate = async (req, res, next) => {
+const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -15,24 +13,12 @@ const authenticate = async (req, res, next) => {
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Connect to the UserDB to fetch the user
-    const userDBConnection = await mongoose.createConnection(process.env.USER_DB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Attach the user ID to the request object
+    req.user = { id: decoded.id };
 
-    const UserModel = userDBConnection.model('User', User.schema);
-
-    // Find the user in the UserDB
-    const user = await UserModel.findById(decoded.id);
-
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'User not found' });
-    }
-
-    req.user = user; // Attach the user to the request object
     next();
   } catch (err) {
+    console.error('JWT verification failed:', err.message);
     return res.status(401).json({ success: false, message: 'Not authorized to access this route' });
   }
 };
