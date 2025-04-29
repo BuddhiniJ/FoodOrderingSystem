@@ -105,6 +105,40 @@ exports.sendOrderConfirmation = async (email, orderData) => {
   }
 };
 
+// Send order payment confirmation email
+exports.sendOrderPaymentConfirmation = async (email, orderData) => {
+  try {
+    // Create notification record
+    const notification = await Notification.create({
+      type: 'email',
+      recipient: email,
+      content: {
+        subject: `Order Payment Confirmation #${orderData.orderNumber}`,
+      },
+      templateData: orderData,
+      metadata: {
+        orderId: orderData.orderId,
+        userId: orderData.userId
+      }
+    });
+
+    // Load and compile template
+    const template = loadTemplate('orderPaymentConfirmation');
+    const htmlContent = compileTemplate(template, orderData);
+    
+    // Send email
+    return await sendEmail(
+      email,
+      `Order Payment Confirmation #${orderData.orderNumber}`,
+      htmlContent,
+      notification._id
+    );
+  } catch (error) {
+    logger.error(`Order payment confirmation email error: ${error.message}`);
+    return { success: false, error: error.message };
+  }
+};
+
 // Send delivery assignment email
 exports.sendDeliveryAssignment = async (email, assignmentData) => {
   try {

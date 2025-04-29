@@ -51,6 +51,54 @@ exports.sendOrderConfirmation = async (req, res) => {
   }
 };
 
+// @desc    Send order ayment confirmation notifications
+// @route   /api/notifications/order-payconfirmation
+// @access  Private
+exports.sendOrderPaymentConfirmation = async (req, res) => {
+  try {
+    const { 
+      email, 
+      phone, 
+      orderData 
+    } = req.body;
+
+    // Validate required fields
+    if (!orderData || !orderData.orderNumber) {
+      return res.status(400).json({
+        success: false,
+        message: 'Order data is required'
+      });
+    }
+
+    const results = {
+      email: null,
+      phone: null
+    };
+
+    // Send email notification if email is provided
+    if (email) {
+      results.email = await emailService.sendOrderPaymentConfirmation(email, orderData);
+    }
+
+    // Send SMS notification if phone is provided
+    if (phone) {
+      results.phone = await smsService.sendOrderPaymentConfirmation(phone, orderData);
+    }
+
+    res.status(200).json({
+      success: true,
+      data: results
+    });
+  } catch (error) {
+    logger.error(`Order payment confirmation error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+};
+
 // @desc    Send delivery assignment notifications
 // @route   POST /api/notifications/delivery-assignment
 // @access  Private

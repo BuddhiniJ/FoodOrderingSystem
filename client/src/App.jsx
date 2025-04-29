@@ -24,6 +24,7 @@ import MenuPage from "./components/Customer/MenuPage";
 import CartPage from "./components/Customer/CartPage";
 import OrderHistory from "./components/Customer/OrderHistory";
 import EditOrder from "./components/Customer/EditOrder";
+import RestaurantOrders from "./components/resturant/RestaurantOrders";
 
 // Delivery Components
 import DeliveryHome from "./components/delivery/deliveryHome";
@@ -66,6 +67,7 @@ const App = () => {
             <Route path="/add-restaurant" element={<RegisterRestaurant />} />
             <Route path="/view-restaurant/:id" element={<ResturantView />} />
             <Route path="/edit-restaurant/:id" element={<EditResturant />} />
+            <Route path="/view-orders/:id" element={<RestaurantOrders />} />
           </Route>
 
           {/* Delivery Personnel Routes */}
