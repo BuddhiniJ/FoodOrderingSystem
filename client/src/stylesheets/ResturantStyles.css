@@ -1516,33 +1516,34 @@ input:checked+.toggle-slider:before {
     justify-content: space-between;
     margin-top: 2rem;
 }
+
 .edit-order-btn,
 .confirm-order-btn,
 .cancel-order-btn {
-  padding: 8px 16px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .edit-order-btn {
-  background-color: #f0f0f0;
-  color: #333;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
 .confirm-order-btn {
-  background-color: #4CAF50;
-  color: white;
+    background-color: #4CAF50;
+    color: white;
 }
 
 .cancel-order-btn {
-  background-color: #F44336;
-  color: white;
+    background-color: #F44336;
+    color: white;
 }
 
 .continue-btn-rest {
@@ -1737,9 +1738,10 @@ input:checked+.toggle-slider:before {
 
 .order-actions {
     display: flex;
-  gap: 10px; /* space between buttons */
-  margin-top: 10px;
-  flex-wrap: wrap;
+    gap: 10px;
+    /* space between buttons */
+    margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 .status-label {
@@ -1990,7 +1992,7 @@ input:checked+.toggle-slider:before {
 .status-select:focus {
     outline: none;
     border-color: var(--accent-color);
-}    
+}
 
 .order-history-container {
     max-width: 900px;
@@ -2139,6 +2141,114 @@ input:checked+.toggle-slider:before {
 
 .edit-order-btn:hover {
     background-color: #357abd;
+}
+
+/* Custom Pay Now button */
+.pay-now-btn {
+    background-color: #4a6bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.pay-now-btn:hover {
+    background-color: #3a56d4;
+    transform: translateY(-1px);
+}
+
+/* Custom Payment Modal (will work alongside Bootstrap) */
+.custom-payment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    /* Higher than Bootstrap's navbar */
+}
+
+.custom-payment-modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom-payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.custom-payment-option-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.custom-payment-option-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-cash-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.custom-card-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+.custom-close-modal-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.success-message {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin: 10px 0;
+    border: 1px solid #badbcc;
 }
 
 @media (max-width: 768px) {

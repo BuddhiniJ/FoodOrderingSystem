@@ -1,32 +1,62 @@
-// client/pages/Pay.jsx
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+import { useLocation } from "react-router-dom";
 import CheckoutForm from "../components/payment/CheckoutForm";
 import OrderSummary from "../components/payment/OrderSummary";
-
-// Replace with your real Stripe public key
-const stripePromise = loadStripe("pk_test_XXXXXXXXXXXXXXXXXXXXXXXX");
+import MainLayout from "../components/layout/MainLayout";
+import "./Pay.css";
 
 const Pay = () => {
-  const items = [
-    { name: "Pizza", price: 500 },
-    { name: "Burger", price: 400 },
-    { name: "Coke", price: 100 },
-  ];
-  const total = items.reduce((acc, item) => acc + item.price, 0);
+  const location = useLocation();
+  const {
+    amount,
+    items,
+    userId,
+    orderId,
+    restaurantId,
+    reference,
+    paymentMethod,
+  } = location.state || {};
+
+  const subtotal = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const deliveryFee = subtotal > 0 ? 200 : 0;
+  const total = subtotal + deliveryFee;
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-        Complete Your Payment
-      </h1>
+    <MainLayout>
+      <div className="payment-page-container">
+        <div className="payment-header">
+          <h1 className="payment-title">Complete Your Payment</h1>
+          <div className="payment-steps">
+            <div className="step completed">Cart</div>
+            <div className="step completed">Details</div>
+            <div className="step active">Payment</div>
+          </div>
+        </div>
 
-      <OrderSummary items={items} total={total} />
+        <div className="payment-sections">
+          <div className="order-summary-section">
+            <OrderSummary
+              items={items}
+              subtotal={subtotal}
+              deliveryFee={deliveryFee}
+              total={total}
+            />
+          </div>
 
-      <Elements stripe={stripePromise}>
-        <CheckoutForm total={total} />
-      </Elements>
-    </div>
+          <div className="checkout-form-section">
+            <CheckoutForm
+              total={total}
+              orderId={orderId}
+              restaurantId={restaurantId}
+              userId={userId}
+              paymentMethod={paymentMethod}
+            />
+          </div>
+        </div>
+      </div>
+    </MainLayout>
   );
 };
 

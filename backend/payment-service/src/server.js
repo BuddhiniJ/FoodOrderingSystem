@@ -1,22 +1,27 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+const connectDB = require("./config/db");
 require("dotenv").config();
+const cors = require("cors");
 
+// Route imports
 const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
+// Middleware
+app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Frontend Vite URL
+    credentials: true,
+  })
+);
+
+// DB connection
+connectDB();
+
+// Routes
 app.use("/api/payments", paymentRoutes);
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ MongoDB connected");
-    app.listen(process.env.PORT, () => {
-      console.log(`🚀 Payment Service running`);
-    });
-  })
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+const PORT = process.env.PORT || 5006;
+app.listen(PORT, () => console.log(`Payment service running on port ${PORT}`));

@@ -1,6 +1,6 @@
-import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
   const { user, isAuthenticated, logoutUser } = useContext(AuthContext);
@@ -8,7 +8,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logoutUser();
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -21,12 +21,41 @@ const Navbar = () => {
           <>
             <span className="welcome-text">Welcome, {user.name}</span>
             <Link to="/profile">Profile</Link>
-            {user.role === 'restaurant-admin' && <Link to="/admin/users">Manage Users</Link>}
-            {user.role === 'restaurant-admin' && <Link to="/my-restaurants">My Restaurants</Link>}
-            {user.role === 'customer' && <Link to="/cart" className="nav-link"> Cart </Link>}
-            {user.role === 'customer' && <Link to="/myorders" className="nav-link"> My Orders </Link>}
-            {user.role === 'customer' && <Link to="/track-order" className="nav-link"> Tracker </Link>}
-            <button onClick={handleLogout} className="logout-btn">Logout</button>
+            {user.role === "restaurant-admin" && (
+              <Link to="/admin/users">Manage Users</Link>
+            )}
+            {user.role === "restaurant-admin" && (
+              <Link to="/my-restaurants">My Restaurants</Link>
+            )}
+            {user.role === "customer" && (
+              <Link to="/cart" className="nav-link">
+                {" "}
+                Cart{" "}
+              </Link>
+            )}
+            {user.role === "customer" && (
+              <Link to="/myorders" className="nav-link">
+                {" "}
+                My Orders{" "}
+              </Link>
+            )}
+
+            {user.role === "customer" && (
+              <Link to="/my-payments" className="nav-link">
+                {" "}
+                My Payments{" "}
+              </Link>
+            )}
+
+            {user.role === "customer" && (
+              <Link to="/track-order" className="nav-link">
+                {" "}
+                Tracker{" "}
+              </Link>
+            )}
+            <button onClick={handleLogout} className="logout-btn">
+              Logout
+            </button>
           </>
         ) : (
           <>
