@@ -1,0 +1,190 @@
+/* Main Container */
+.payment-success-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #f0fff4 0%, #ebf8ff 100%);
+}
+
+/* Card Styles */
+.payment-success-card {
+    background: white;
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.checkmark-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.checkmark-background {
+    background-color: #dcfce7;
+    padding: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+}
+
+.checkmark-icon {
+    width: 100%;
+    height: 100%;
+    color: #10b981;
+}
+
+.checkmark-icon path {
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Text Styles */
+.payment-success-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #10b981;
+    margin-bottom: 12px;
+}
+
+.payment-success-message {
+    color: #4b5563;
+    margin-bottom: 24px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Order Summary */
+.order-summary {
+    margin-bottom: 24px;
+    text-align: left;
+    background-color: #f9fafb;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.order-summary-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #1f2937;
+}
+
+.order-summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.order-detail-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-status {
+    font-weight: 500;
+    color: #10b981;
+}
+
+.order-total {
+    font-weight: 500;
+}
+
+.order-items-count {
+    font-weight: 500;
+}
+
+/* Loading Spinner */
+.loading-spinner-container {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(16, 185, 129, 0.2);
+    border-radius: 50%;
+    border-top-color: #10b981;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* PaymentSuccess.css */
+
+/* ... (keep all your existing styles) */
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+@media (min-width: 480px) {
+    .action-buttons {
+        flex-direction: row;
+    }
+}
+
+.primary-button,
+.secondary-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.primary-button {
+    background-color: #10b981;
+    color: white;
+    border: none;
+}
+
+.primary-button:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.secondary-button {
+    background-color: white;
+    color: #10b981;
+    border: 1px solid #10b981;
+}
+
+.secondary-button:hover {
+    background-color: #f0fdf4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
+
+.button-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    flex-shrink: 0;
+}
