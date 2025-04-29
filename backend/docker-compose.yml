@@ -1,0 +1,59 @@
+version: "3.9"
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_URI=mongodb+srv://Admin:admin123@cluster0.rnrnbp1.mongodb.net/UserDB
+    networks:
+      - foodapp-network
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "5002:5002"
+    environment:
+      - MONGO_URI=mongodb+srv://Admin:admin123@cluster0.rnrnbp1.mongodb.net/NotificationDB
+    networks:
+      - foodapp-network
+
+  restaurant-service:
+    build: ./restaurant-service
+    ports:
+      - "5003:5003"
+    environment:
+      - MONGO_URI=mongodb+srv://Admin:admin123@cluster0.rnrnbp1.mongodb.net/restaurants
+    networks:
+      - foodapp-network
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "5004:5004"
+    environment:
+      - MONGO_URI=mongodb+srv://Admin:admin123@cluster0.rnrnbp1.mongodb.net/OrderServiceDB
+    networks:
+      - foodapp-network
+
+  delivery-service:
+    build: ./delivery-service
+    ports:
+      - "5005:5005"
+    environment:
+      - MONGO_URI=mongodb+srv://Admin:admin123@cluster0.rnrnbp1.mongodb.net/DeliveryDB
+    networks:
+      - foodapp-network
+
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "5006:5006"
+    environment:
+      - MONGO_URI=mongodb+srv://Admin:admin123@cluster0.rnrnbp1.mongodb.net/PaymentDB
+    networks:
+      - foodapp-network
+
+networks:
+  foodapp-network:
+    driver: bridge
