@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
-=
 
 import Pay from "./pages/Pay";
 import PaymentSuccess from "./components/payment/PaymentSuccess";
@@ -46,6 +45,11 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/pay" element={<Pay />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
 
           {/* Protected Routes for all authenticated users */}
           <Route element={<ProtectedRoute />}>

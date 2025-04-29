@@ -2420,8 +2420,6 @@ input:checked+.toggle-slider:before {
     }
 }
 
-/* EditOrder.css - Stylesheet for the Edit Order page */
-
 .editOrder-container {
     max-width: 42rem;
     margin: 2rem auto;
