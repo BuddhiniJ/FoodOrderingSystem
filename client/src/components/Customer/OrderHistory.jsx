@@ -155,6 +155,20 @@ const OrderHistory = () => {
                       </button>
                     </div>
                   )}
+
+                  {/* Buttons only for pending orders */}
+                  {order.status === 'confirmed' && order.paymentStatus === 'pending' &&(
+                    <div className="order-actions">
+                      
+                      <button
+                        className="confirm-order-btn"
+                        
+                      >
+                        Make Payment
+                      </button>
+                      
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
