@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Payment Confirmation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+      }
+      .content {
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+      .footer {
+        text-align: center;
+        padding: 10px;
+        font-size: 12px;
+        color: #999;
+      }
+      .order-details {
+        margin: 20px 0;
+      }
+      .order-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      .total {
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: right;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Payment Confirmation</h1>
+      </div>
+      <div class="content">
+        <p>Dear {{customerName}},</p>
+        <p>
+          Thank you for your payment! We have received your payment for order
+          <strong>#{{orderNumber}}</strong> placed on
+          <strong>{{orderDate}}</strong>.
+        </p>
+
+        <div class="order-details">
+          <h2>Order #{{orderNumber}}</h2>
+
+          Resturant Name: <strong>{{restaurantName}}</strong><br />
+          Payment Date and Time: <strong>{{orderDate}}</strong><br />
+          Payment Method: <strong>{{paymentMethod}}</strong><br />
+          <h3>Items:</h3>
+          {{orderItemsemail}}<br />
+          Total Paid: <strong>{{total}}</strong><br />
+        </div>
+
+        <p>
+          You may keep this email as a receipt for your records. <br />
+          If you have any questions or need further assistance, please contact
+          us.
+        </p>
+
+        <p>Thank you for choosing our service!</p>
+      </div>
+      <div class="footer">
+        <p>&copy; 2025 Food Delivery Platform. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

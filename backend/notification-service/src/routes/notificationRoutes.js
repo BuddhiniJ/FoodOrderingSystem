@@ -3,6 +3,7 @@ const {
   sendOrderConfirmation,
   sendDeliveryAssignment,
   sendStatusUpdate,
+  sendOrderPaymentConfirmation,
   getNotificationHistory,
   resendNotification
 } = require('../controllers/notificationController');
@@ -19,6 +20,7 @@ router.use(protect);
 
 // Routes accessible by all authenticated users
 router.post('/order-confirmation', sendOrderConfirmation);
+router.post('/order-payconfirmation', sendOrderPaymentConfirmation);
 router.post('/delivery-assignment', sendDeliveryAssignment);
 router.post('/status-update', sendStatusUpdate);
 
