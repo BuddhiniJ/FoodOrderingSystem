@@ -94,7 +94,7 @@ const CartPage = () => {
           <div className="empty-cart">
             <p>Your cart is empty.</p>
             <button
-              onClick={() => navigate('/restaurantsList')}
+              onClick={() => navigate('/')}
               className="browse-btn-rest"
             >
               Browse Restaurants
@@ -128,7 +128,7 @@ const CartPage = () => {
 
             <div className="cart-actions">
               <button
-                onClick={() => navigate('/restaurantsList')}
+                onClick={() => navigate('/')}
                 className="continue-btn-rest"
               >
                 Continue Shopping
