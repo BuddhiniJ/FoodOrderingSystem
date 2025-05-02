@@ -7,7 +7,6 @@ const logger = require('./utils/logger');
 
 const app = express();
 
-// Middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
@@ -16,12 +15,10 @@ app.use(morgan('dev'));
 // Routes
 app.use('/api/notifications', notificationRoutes);
 
-// Basic route
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Notification Service API' });
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   logger.error(`Unhandled error: ${err.message}`);
   res.status(500).json({

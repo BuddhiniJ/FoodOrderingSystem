@@ -38,57 +38,66 @@ import MyPayments from "./components/payment/MyPayments";
 import Pay from "./pages/Pay";
 import PaymentSuccess from "./components/payment/PaymentSuccess";
 
+import { DeliveryNotificationProvider } from "./context/DeliveryNotificationContext";
+
 const App = () => {
   return (
     <AuthProvider>
-      <Router>
-        <ToastContainer />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+      <DeliveryNotificationProvider>
+        <Router>
+          <ToastContainer />
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          {/* Protected Routes for all authenticated users */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/edit" element={<UpdateProfile />} />
-            <Route path="/my-payments" element={<MyPayments />} />
-            <Route path="/pay" element={<Pay />} />
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-          </Route>
+            {/* Protected Routes for all authenticated users */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/edit" element={<UpdateProfile />} />
+              <Route path="/my-payments" element={<MyPayments />} />
+              <Route path="/pay" element={<Pay />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+            </Route>
 
-          {/* Admin Routes */}
-          <Route
-            element={<ProtectedRoute allowedRoles={["restaurant-admin"]} />}
-          >
-            <Route path="/admin/users" element={<UserManagement />} />
-            <Route path="/my-restaurants" element={<MyRestaurantsPage />} />
-            <Route path="/add-restaurant" element={<RegisterRestaurant />} />
-            <Route path="/view-restaurant/:id" element={<ResturantView />} />
-            <Route path="/edit-restaurant/:id" element={<EditResturant />} />
-            <Route path="/view-orders/:id" element={<RestaurantOrders />} />
-          </Route>
+            {/* Admin Routes */}
+            <Route
+              element={<ProtectedRoute allowedRoles={["restaurant-admin"]} />}
+            >
+              <Route path="/admin/users" element={<UserManagement />} />
+              <Route path="/my-restaurants" element={<MyRestaurantsPage />} />
+              <Route path="/add-restaurant" element={<RegisterRestaurant />} />
+              <Route path="/view-restaurant/:id" element={<ResturantView />} />
+              <Route path="/edit-restaurant/:id" element={<EditResturant />} />
+              <Route path="/view-orders/:id" element={<RestaurantOrders />} />
+            </Route>
 
-          {/* Delivery Personnel Routes */}
-          <Route element={<ProtectedRoute allowedRoles={["delivery-personnel"]} />}>
-            <Route path="/delivery" element={<DeliveryHome />} />
-            <Route path="/location-updater" element={<DeliveryLocationUpdater />}/>
-            <Route path="/order-details/:id" element={<OrderDetails />} />
-          </Route>
+            {/* Delivery Personnel Routes */}
+            <Route
+              element={<ProtectedRoute allowedRoles={["delivery-personnel"]} />}
+            >
+              <Route path="/delivery" element={<DeliveryHome />} />
+              <Route
+                path="/location-updater"
+                element={<DeliveryLocationUpdater />}
+              />
+              <Route path="/order-details/:id" element={<OrderDetails />} />
+            </Route>
 
-          {/*Buddhini */}
-          {/* User Routes */}
-          <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
-            <Route path="/restaurantsList" element={<RestaurantsList />} />
-            <Route path="/restaurants/:id/menu" element={<MenuPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/myorders" element={<OrderHistory />} />
-            <Route path="/edit-order/:id" element={<EditOrder />} />
-            <Route path="/track-order" element={<TrackDelivery />} />
-          </Route>
-        </Routes>
-      </Router>
+            {/*Buddhini */}
+            {/* User Routes */}
+            <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
+              <Route path="/restaurantsList" element={<RestaurantsList />} />
+              <Route path="/restaurants/:id/menu" element={<MenuPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/myorders" element={<OrderHistory />} />
+              <Route path="/edit-order/:id" element={<EditOrder />} />
+              <Route path="/track-order" element={<TrackDelivery />} />
+            </Route>
+          </Routes>
+        </Router>
+      </DeliveryNotificationProvider>
     </AuthProvider>
   );
 };

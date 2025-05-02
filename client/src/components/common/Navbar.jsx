@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import NotificationBell from "./NotificationBell";
 
 const Navbar = () => {
   const { user, isAuthenticated, logoutUser } = useContext(AuthContext);
@@ -20,6 +21,9 @@ const Navbar = () => {
         {isAuthenticated ? (
           <>
             <span className="welcome-text">Welcome, {user.name}</span>
+            {user.role === "delivery-personnel" && (
+              <NotificationBell />
+            )}
             <Link to="/profile">Profile</Link>
             {user.role === "restaurant-admin" && (
               <Link to="/admin/users">Manage Users</Link>

@@ -12,7 +12,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
 
-  // filepath: e:\MyProjects\FoodOrderingSystem\client\src\components\auth\Login.jsx
 const handleSubmit = async (values) => {
   try {
     setLoading(true);
