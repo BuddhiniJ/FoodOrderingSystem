@@ -9,6 +9,8 @@ const EditOrderPage = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
+      const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
+
   useEffect(() => {
     axios.get(`http://localhost:5004/api/orders/${id}`)
       .then(res => setOrder(res.data))
@@ -49,7 +51,7 @@ const EditOrderPage = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.put(`http://localhost:5004/api/orders/${id}`, order);
+      await axios.put(`${ORDER_API}/orders/${id}`, order);
       Swal.fire({
         title: 'Success!',
         text: 'Your order has been updated.',
@@ -78,11 +80,11 @@ const EditOrderPage = () => {
       <h2 className="editOrder-heading">
         Edit Order <span className="editOrder-orderNumber">#{order.orderNumber || id}</span>
       </h2>
-      
+
       {order.items.map((item, index) => (
         <div key={index} className="editOrder-item">
           <p className="editOrder-itemName">{item.name}</p>
-          
+
           <div className="editOrder-formGroup">
             <label className="editOrder-label">
               Quantity:
@@ -95,7 +97,7 @@ const EditOrderPage = () => {
               />
             </label>
           </div>
-          
+
           <div className="editOrder-formGroup">
             <label className="editOrder-label">
               Special Instructions:
@@ -109,7 +111,7 @@ const EditOrderPage = () => {
           </div>
         </div>
       ))}
-      
+
       <div className="editOrder-buttonContainer">
         <button
           className="editOrder-cancelButton"
@@ -117,7 +119,7 @@ const EditOrderPage = () => {
         >
           Cancel
         </button>
-        
+
         <button
           className="editOrder-saveButton"
           onClick={handleSubmit}

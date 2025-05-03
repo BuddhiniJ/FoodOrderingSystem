@@ -19,6 +19,9 @@ const RestaurantView = () => {
 
   const categories = ['Appetizer', 'Main Course', 'Dessert', 'Beverage', 'Special'];
 
+   const RESTAURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
+
+
   useEffect(() => {
     fetchRestaurantAndMenu();
   }, [restaurantId]);
@@ -27,8 +30,8 @@ const RestaurantView = () => {
     setLoading(true);
     try {
       const [restaurantRes, menuRes] = await Promise.all([
-        axios.get(`http://localhost:5003/api/restaurants`),
-        axios.get(`http://localhost:5003/api/restaurants/menu/${restaurantId}`)
+        axios.get(`${RESTAURANT_API}/restaurants`),
+        axios.get(`${RESTAURANT_API}/restaurants/menu/${restaurantId}`),
       ]);
 
       const found = restaurantRes.data.find(r => r._id === restaurantId);
@@ -64,10 +67,13 @@ const RestaurantView = () => {
 
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5003/api/restaurants/menu/${editingId}`, form);
+        await axios.put(
+          `${RESTAURANT_API}/restaurants/menu/${editingId}`,
+          form
+        );
         setEditingId(null);
       } else {
-        await axios.post('http://localhost:5003/api/restaurants/menu/with-image', formData, {
+        await axios.post(`${RESTAURANT_API}/restaurants/menu/with-image`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
@@ -110,7 +116,7 @@ const RestaurantView = () => {
   const handleDelete = async (id, name) => {
     if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
       try {
-        await axios.delete(`http://localhost:5003/api/restaurants/menu/${id}`);
+        await axios.delete(`${RESTAURANT_API}/restaurants/menu/${id}`);
         fetchRestaurantAndMenu();
       } catch (err) {
         console.error(err);

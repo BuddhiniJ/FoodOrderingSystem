@@ -11,6 +11,8 @@ const EditRestaurant = () => {
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
 
+    const RESTAURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
+
     const [form, setForm] = useState({
         name: '', location: '', contact: '', description: '', isAvailable: true,
         latitude: null, longitude: null
@@ -26,7 +28,9 @@ const EditRestaurant = () => {
         const fetchRestaurant = async () => {
             setLoading(true);
             try {
-                const res = await axios.get(`http://localhost:5003/api/restaurants/${id}`);
+                const res = await axios.get(
+                  `${RESTAURANT_API}/restaurants/${id}`
+                );
                 setForm({
                     ...res.data,
                     isAvailable: res.data.isAvailable,
@@ -68,8 +72,8 @@ const EditRestaurant = () => {
         if (image) formData.append('image', image);
 
         try {
-            await axios.put(`http://localhost:5003/api/restaurants/${id}`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
+            await axios.put(`${RESTAURANT_API}/restaurants/${id}`, formData, {
+              headers: { "Content-Type": "multipart/form-data" },
             });
             alert('Updated successfully!');
             navigate(`/my-restaurants`);

@@ -38,6 +38,8 @@ import MyPayments from "./components/payment/MyPayments";
 import Pay from "./pages/Pay";
 import PaymentSuccess from "./components/payment/PaymentSuccess";
 
+import ResturantsPayments from "./components/resturant/ResturantsPayments";
+
 import { DeliveryNotificationProvider } from "./context/DeliveryNotificationContext";
 
 const App = () => {
@@ -71,6 +73,10 @@ const App = () => {
               <Route path="/view-restaurant/:id" element={<ResturantView />} />
               <Route path="/edit-restaurant/:id" element={<EditResturant />} />
               <Route path="/view-orders/:id" element={<RestaurantOrders />} />
+              <Route
+                path="/resturants-payments"
+                element={<ResturantsPayments />}
+              />
             </Route>
 
             {/* Delivery Personnel Routes */}

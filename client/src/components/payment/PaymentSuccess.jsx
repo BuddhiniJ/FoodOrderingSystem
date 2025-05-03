@@ -12,6 +12,9 @@ const PaymentSuccess = () => {
   const [countdown, setCountdown] = useState(5);
   const navigate = useNavigate();
 
+  const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
+
+
   useEffect(() => {
     const markOrderAsPaid = async () => {
       if (!orderId) return;
@@ -19,13 +22,11 @@ const PaymentSuccess = () => {
       try {
         setIsLoading(true);
         await axios.patch(
-          `http://localhost:5004/api/orders/${orderId}/status`,
+          `${ORDER_API}/orders/${orderId}/status`,
           { status: "preparing" }
         );
 
-        const response = await axios.get(
-          `http://localhost:5004/api/orders/${orderId}`
-        );
+        const response = await axios.get(`${ORDER_API}/orders/${orderId}`);
         setOrderDetails(response.data);
       } catch (error) {
         console.error("❌ Failed to mark order as preparing", error);

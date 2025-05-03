@@ -3,7 +3,7 @@ import axios from "axios";
 import MainLayout from "../layout/MainLayout";
 import "./ResturantsPayments.css";
 
-const RestaurantsPayments = () => {
+const MyRestaurantsPayments = () => {
   const token = localStorage.getItem("token");
   const [restaurants, setRestaurants] = useState([]);
   const [payments, setPayments] = useState([]);
@@ -11,11 +11,15 @@ const RestaurantsPayments = () => {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
 
+   const RESTAURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
+    const PAYMENT_API = import.meta.env.VITE_PAYMENT_SERVICE_URL;
+
+
   useEffect(() => {
     const fetchPaymentsForMyRestaurants = async () => {
       try {
         const restaurantRes = await axios.get(
-          "http://localhost:5003/api/restaurants/my-restaurants",
+          `${RESTAURANT_API}/restaurants/my-restaurants`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -26,7 +30,7 @@ const RestaurantsPayments = () => {
         const restaurantIds = restaurantList.map((r) => r._id);
 
         const paymentRequests = restaurantIds.map((id) =>
-          axios.get(`http://localhost:5006/api/payments/restaurant/${id}`)
+          axios.get(`${PAYMENT_API}/payments/restaurant/${id}`)
         );
         const paymentResponses = await Promise.all(paymentRequests);
         const allPayments = paymentResponses.flatMap((res) => res.data);
@@ -58,7 +62,7 @@ const RestaurantsPayments = () => {
 
   const handleUpdate = async (paymentId, status) => {
     try {
-      await axios.put(`http://localhost:5006/api/payments/${paymentId}`, {
+      await axios.put(`${PAYMENT_API}/payments/${paymentId}`, {
         paymentStatus: status,
       });
       alert("Payment status updated.");
@@ -71,7 +75,7 @@ const RestaurantsPayments = () => {
   const handleDelete = async (paymentId) => {
     if (!window.confirm("Delete this payment?")) return;
     try {
-      await axios.delete(`http://localhost:5006/api/payments/${paymentId}`);
+      await axios.delete(`${PAYMENT_API}/payments/${paymentId}`);
       setPayments((prev) => prev.filter((p) => p._id !== paymentId));
     } catch (err) {
       console.error("Delete error:", err);
@@ -186,4 +190,4 @@ const RestaurantsPayments = () => {
   );
 };
 
-export default RestaurantsPayments;
+export default MyRestaurantsPayments;

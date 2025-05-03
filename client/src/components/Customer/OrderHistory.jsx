@@ -14,11 +14,16 @@ const OrderHistory = () => {
 
   const navigate = useNavigate();
 
+      const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
+      const PAYMENT_API = import.meta.env.VITE_PAYMENT_SERVICE_URL;
+      const NOTIFICATION_API = import.meta.env.VITE_NOTIFICATION_SERVICE_URL;
+
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5004/api/orders/user/${user._id}`
+          `${ORDER_API}/orders/user/${user._id}`
         );
         setOrders(res.data);
       } catch (err) {
@@ -73,7 +78,7 @@ const OrderHistory = () => {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:5002/api/notifications/order-confirmation",
+        `${NOTIFICATION_API}/notifications/order-confirmation`,
         {
           email: user.email,
           phone: user.phone,
@@ -95,7 +100,7 @@ const OrderHistory = () => {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.patch(`http://localhost:5004/api/orders/${orderId}/status`, {
+      await axios.patch(`${ORDER_API}/orders/${orderId}/status`, {
         status: newStatus,
       });
 
@@ -146,7 +151,7 @@ const OrderHistory = () => {
     } else if (method === "cash") {
       try {
         await axios.post(
-          "http://localhost:5006/api/payments/create-payment-intent",
+          `${PAYMENT_API}/payments/create-payment-intent`,
           {
             userId: selectedOrder.customerId,
             orderId: selectedOrder._id,

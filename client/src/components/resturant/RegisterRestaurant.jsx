@@ -14,6 +14,9 @@ const RegisterRestaurant = () => {
   const [preview, setPreview] = useState(null);
   const token = localStorage.getItem('token');
 
+   const RESTAURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
+
+
   // Google Maps state
   const [markerPosition, setMarkerPosition] = useState({ lat: 6.9271, lng: 79.8612 }); // default: Colombo
 
@@ -38,7 +41,7 @@ const RegisterRestaurant = () => {
     formData.append('longitude', markerPosition.lng);
 
     try {
-      const res = await axios.post('http://localhost:5003/api/restaurants/restaurants', formData, {
+      const res = await axios.post(`${RESTAURANT_API}/restaurants/restaurants`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`

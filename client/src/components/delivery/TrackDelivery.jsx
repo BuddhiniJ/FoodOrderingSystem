@@ -3,13 +3,16 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
 import MainLayout from "../layout/MainLayout";
-import './CSS/deliveryHome.css'
+import "./CSS/deliveryHome.css";
 
 const TrackDelivery = () => {
   const [orderId, setOrderId] = useState("");
   const [deliveryPersonId, setDeliveryPersonId] = useState(null);
   const [location, setLocation] = useState(null);
   const [intervalId, setIntervalId] = useState(null);
+
+  const DELIVERY_API = import.meta.env.VITE_DELIVERY_SERVICE_URL;
+  const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
 
   const handleSearch = async () => {
     try {
@@ -19,7 +22,9 @@ const TrackDelivery = () => {
       }
 
       // Step 1: Find delivery assignment by orderId
-      const assignmentRes = await axios.get(`http://localhost:5005/api/assignments/order/${orderId}`);
+      const assignmentRes = await axios.get(
+        `${DELIVERY_API}/assignments/order/${orderId}`
+      );
       const userId = assignmentRes.data.assignment.userId;
       setDeliveryPersonId(userId);
 
@@ -30,7 +35,6 @@ const TrackDelivery = () => {
       if (intervalId) clearInterval(intervalId); // Clear old timer
       const id = setInterval(() => fetchLocation(userId), 10000);
       setIntervalId(id);
-
     } catch (error) {
       console.error("Error searching assignment:", error);
       alert("Could not find delivery assignment for this Order ID.");
@@ -40,7 +44,7 @@ const TrackDelivery = () => {
 
   const fetchLocation = async (userId) => {
     try {
-      const locationRes = await axios.get(`http://localhost:5005/api/location/${userId}`);
+      const locationRes = await axios.get(`${DELIVERY_API}/location/${userId}`);
 
       if (locationRes.data && locationRes.data.location) {
         // ✅ Adjusted extraction based on your backend model
@@ -51,7 +55,6 @@ const TrackDelivery = () => {
       } else {
         setLocation(null);
       }
-
     } catch (error) {
       console.error("Error fetching delivery location:", error);
       setLocation(null); // Clear if error
@@ -85,15 +88,17 @@ const TrackDelivery = () => {
         </div>
 
         {location ? (
-          <MapContainer center={[location.latitude, location.longitude]} zoom={15} style={{ height: "400px", width: "100%" }}>
+          <MapContainer
+            center={[location.latitude, location.longitude]}
+            zoom={15}
+            style={{ height: "400px", width: "100%" }}
+          >
             <TileLayer
-              attribution='&copy; OpenStreetMap contributors'
+              attribution="&copy; OpenStreetMap contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Marker position={[location.latitude, location.longitude]}>
-              <Popup>
-                Your Order is here!
-              </Popup>
+              <Popup>Your Order is here!</Popup>
             </Marker>
           </MapContainer>
         ) : (
