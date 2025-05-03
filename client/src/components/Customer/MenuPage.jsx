@@ -21,7 +21,7 @@ const MenuPage = () => {
       try {
         const [restaurantRes, menuRes] = await Promise.all([
           axios.get(`${RESTAURANT_API}/restaurants/${id}`),
-          axios.get(`${RESTAURANT_API}restaurants/menu/${id}`),
+          axios.get(`${RESTAURANT_API}/restaurants/menu/${id}`),
         ]);
         setRestaurant(restaurantRes.data);
         setMenuItems(menuRes.data);

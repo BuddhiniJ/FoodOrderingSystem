@@ -117,13 +117,16 @@ const CheckoutForm = ({
     setLoading(true);
 
     try {
-      const res = await axios.post(`${PAYMENT_API}/create-payment-intent`, {
-        amount: total,
-        orderId,
-        restaurantId,
-        userId,
-        paymentMethod,
-      });
+      const res = await axios.post(
+        `${PAYMENT_API}/payments/create-payment-intent`,
+        {
+          amount: total,
+          orderId,
+          restaurantId,
+          userId,
+          paymentMethod,
+        }
+      );
 
       const { clientSecret } = res.data;
 

@@ -58,7 +58,7 @@ const CartPage = () => {
             ),
           };
 
-          await axios.post(`${ORDER_API}/orders`, order);
+          await axios.post(`http://localhost:5004/api/orders`, order);
           return reference;
         }
       );
