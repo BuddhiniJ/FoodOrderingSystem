@@ -121,7 +121,27 @@ const LocationUpdater = () => {
     try {
       const token = localStorage.getItem("token");
 
-      // Step 1: Assign the delivery
+      // ✅ Step 0: Get delivery person's current GPS location
+    const position = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    );
+    const currentLatitude = position.coords.latitude;
+    const currentLongitude = position.coords.longitude;
+
+    // ✅ Step 0.5: Save delivery person's location to location DB
+    await axios.post(
+      `${DELIVERY_API}/location`, // Make sure LOCATION_API is defined
+      {
+        latitude: currentLatitude,
+        longitude: currentLongitude,
+        availability: true,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  
+      // Step 1: Assign the delivery (External API)
       await axios.post(
         `${DELIVERY_API}/assignments`,
         {
@@ -137,8 +157,26 @@ const LocationUpdater = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
-      // ✅ Step 2: Directly update order status to 'out-for-delivery'
+  
+      // ✅ Step 1.5: Save assignment to internal DB
+      await axios.post(
+        `${DELIVERY_API}/assignments`, // Replace with actual backend API base URL
+        {
+          userId: user._id, // Ensure `user` is defined (e.g., from auth context)
+          orderId: order._id,
+          customerId: order.customerId,
+          restaurantLocation: {
+            lat: restaurant.latitude,
+            lng: restaurant.longitude,
+          },
+          restaurantId: restaurant._id,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      // Step 2: Update order status
       await axios.patch(
         `${ORDER_API}/orders/${order._id}/status`,
         { status: "out-for-delivery" },
@@ -146,7 +184,7 @@ const LocationUpdater = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
+  
       // Step 3: Fetch customer details
       const customerResponse = await axios.get(
         `${USER_API}/users/${order.customerId}`,
@@ -155,8 +193,8 @@ const LocationUpdater = () => {
         }
       );
       const customer = customerResponse.data.data;
-
-      // Step 4: Send notification to customer
+  
+      // Step 4: Send notification
       const assignmentData = {
         orderNumber: order.reference,
         deliveryPersonName: user.name,
@@ -168,7 +206,7 @@ const LocationUpdater = () => {
         acceptLink: `${ORDER_API}/order-details/${order._id}`,
         currentYear: new Date().getFullYear(),
       };
-
+  
       await axios.post(
         `${NOTIFICATION_API}/notifications/delivery-assignment`,
         {
@@ -183,15 +221,15 @@ const LocationUpdater = () => {
           },
         }
       );
-
+  
       alert("Order assigned, status updated, and notification sent successfully!");
-
       navigate(`/order-details/${order._id}`);
     } catch (error) {
       console.error("Error accepting order:", error);
       alert("Failed to accept order.");
     }
   };
+  
 
   return (
     <MainLayout>
