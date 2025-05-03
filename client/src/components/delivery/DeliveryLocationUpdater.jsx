@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MainLayout from "../layout/MainLayout";
 import { AuthContext } from "../../context/AuthContext";
+import { DeliveryNotificationContext } from "../../context/DeliveryNotificationContext";
 
 const LocationUpdater = () => {
   const [location, setLocation] = useState(null);
@@ -10,6 +11,7 @@ const LocationUpdater = () => {
   const [orders, setOrders] = useState({});
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const { addNotification } = useContext(DeliveryNotificationContext);
 
   const DELIVERY_API = import.meta.env.VITE_DELIVERY_SERVICE_URL;
   const RESTAURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
@@ -69,7 +71,7 @@ const LocationUpdater = () => {
         return calculateDistance(lat, lng, restaurant.latitude, restaurant.longitude) <= 100;
       });
       setNearbyRestaurants(nearby);
-
+  
       const ordersPromises = nearby.map((restaurant) =>
         axios
           .get(
@@ -77,13 +79,25 @@ const LocationUpdater = () => {
           )
           .then((res) => ({ restaurantId: restaurant._id, orders: res.data }))
       );
-
+  
       const ordersArray = await Promise.all(ordersPromises);
       const ordersMap = {};
+      let totalNewOrders = 0;
+      
       ordersArray.forEach(({ restaurantId, orders }) => {
         ordersMap[restaurantId] = orders;
+        totalNewOrders += orders.length;
       });
-
+  
+      // Display notification if there are any new orders
+      if (totalNewOrders > 0) {
+        // Use the context's addNotification method instead of browser notifications
+        addNotification(`${totalNewOrders} new order(s) ready for delivery`, {
+          type: 'new-orders',
+          count: totalNewOrders
+        });
+      }
+    
       setOrders(ordersMap);
     } catch (error) {
       console.error("Error fetching restaurants:", error);

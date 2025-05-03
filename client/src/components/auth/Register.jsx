@@ -16,15 +16,13 @@ const Register = () => {
       setLoading(true);
       setError('');
       setSuccess('');
-      
-      // Remove confirmPassword before sending to API
+          
       const { confirmPassword, ...userData } = values;
       await register(userData);
       
       setSuccess('Registration successful!');
       resetForm();
       
-      // Redirect to login after 3 seconds
       setTimeout(() => {
         navigate('/login');
       }, 3000);

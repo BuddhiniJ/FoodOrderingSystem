@@ -11,7 +11,6 @@ const loadTemplate = (templateName) => {
   return fs.readFileSync(templatePath, 'utf8');
 };
 
-// Replace template variables with actual data
 const compileTemplate = (template, data) => {
   let compiledTemplate = template;
   
@@ -23,7 +22,7 @@ const compileTemplate = (template, data) => {
   return compiledTemplate;
 };
 
-// Send email using Brevo (formerly SendinBlue)
+// Send email using Brevo 
 const sendEmail = async (to, subject, htmlContent, notificationId = null) => {
   try {
     const response = await axios.post(
@@ -74,7 +73,6 @@ const sendEmail = async (to, subject, htmlContent, notificationId = null) => {
 // Send order confirmation email
 exports.sendOrderConfirmation = async (email, orderData) => {
   try {
-    // Create notification record
     const notification = await Notification.create({
       type: 'email',
       recipient: email,
@@ -88,11 +86,9 @@ exports.sendOrderConfirmation = async (email, orderData) => {
       }
     });
 
-    // Load and compile template
     const template = loadTemplate('orderConfirmation');
     const htmlContent = compileTemplate(template, orderData);
     
-    // Send email
     return await sendEmail(
       email,
       `Order Confirmation #${orderData.orderNumber}`,
@@ -107,8 +103,7 @@ exports.sendOrderConfirmation = async (email, orderData) => {
 
 // Send order payment confirmation email
 exports.sendOrderPaymentConfirmation = async (email, orderData) => {
-  try {
-    // Create notification record
+  try {    
     const notification = await Notification.create({
       type: 'email',
       recipient: email,
@@ -121,12 +116,10 @@ exports.sendOrderPaymentConfirmation = async (email, orderData) => {
         userId: orderData.userId
       }
     });
-
-    // Load and compile template
+    
     const template = loadTemplate('orderPaymentConfirmation');
     const htmlContent = compileTemplate(template, orderData);
     
-    // Send email
     return await sendEmail(
       email,
       `Order Payment Confirmation #${orderData.orderNumber}`,
@@ -142,7 +135,6 @@ exports.sendOrderPaymentConfirmation = async (email, orderData) => {
 // Send delivery assignment email
 exports.sendDeliveryAssignment = async (email, assignmentData) => {
   try {
-    // Create notification record
     const notification = await Notification.create({
       type: 'email',
       recipient: email,
@@ -156,11 +148,9 @@ exports.sendDeliveryAssignment = async (email, assignmentData) => {
       }
     });
 
-    // Load and compile template
     const template = loadTemplate('deliveryAssignment');
     const htmlContent = compileTemplate(template, assignmentData);
     
-    // Send email
     return await sendEmail(
       email,
       `Order Delivery #${assignmentData.orderNumber}`,
@@ -169,40 +159,6 @@ exports.sendDeliveryAssignment = async (email, assignmentData) => {
     );
   } catch (error) {
     logger.error(`Delivery assignment email error: ${error.message}`);
-    return { success: false, error: error.message };
-  }
-};
-
-// Send status update email
-exports.sendStatusUpdate = async (email, statusData) => {
-  try {
-    // Create notification record
-    const notification = await Notification.create({
-      type: 'email',
-      recipient: email,
-      content: {
-        subject: `Order Status Update: ${statusData.status}`,
-      },
-      templateData: statusData,
-      metadata: {
-        orderId: statusData.orderId,
-        userId: statusData.userId
-      }
-    });
-
-    // Load and compile template
-    const template = loadTemplate('statusUpdate');
-    const htmlContent = compileTemplate(template, statusData);
-    
-    // Send email
-    return await sendEmail(
-      email,
-      `Order Status Update: ${statusData.status}`,
-      htmlContent,
-      notification._id
-    );
-  } catch (error) {
-    logger.error(`Status update email error: ${error.message}`);
     return { success: false, error: error.message };
   }
 };
