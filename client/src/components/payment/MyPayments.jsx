@@ -13,24 +13,37 @@ const MyPayments = () => {
   const [deleting, setDeleting] = useState(false);
 
   const PAYMENT_API = import.meta.env.VITE_PAYMENT_SERVICE_URL;
-
+  const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
 
   useEffect(() => {
-    const fetchPayments = async () => {
+    const fetchPaymentsAndOrders = async () => {
       try {
-        const response = await axios.get(
-          `${PAYMENT_API}/payments/user/${user._id}`
-        );
-        setPayments(response.data);
+        const [paymentsRes, ordersRes] = await Promise.all([
+          axios.get(`${PAYMENT_API}/payments/user/${user._id}`),
+          axios.get(`${ORDER_API}/orders/user/${user._id}`),
+        ]);
+
+        const orders = ordersRes.data;
+        const paymentsWithReference = paymentsRes.data.map((payment) => {
+          const relatedOrder = orders.find(
+            (order) => order._id === payment.orderId
+          );
+          return {
+            ...payment,
+            reference: relatedOrder?.reference || "N/A",
+          };
+        });
+
+        setPayments(paymentsWithReference);
       } catch (error) {
-        console.error("Failed to fetch payments:", error);
+        console.error("Failed to fetch data:", error);
       } finally {
         setLoading(false);
       }
     };
 
     if (user?._id) {
-      fetchPayments();
+      fetchPaymentsAndOrders();
     }
   }, [user]);
 
@@ -141,6 +154,12 @@ const MyPayments = () => {
                       <span className="detail-label">Payment ID:</span>
                       <span className="detail-value">
                         {selectedPayment._id}
+                      </span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="detail-label">Referrence ID:</span>
+                      <span className="detail-value">
+                        {selectedPayment.reference}
                       </span>
                     </div>
                     <div className="detail-row">
