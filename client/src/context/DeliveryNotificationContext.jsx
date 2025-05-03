@@ -12,6 +12,11 @@ export const DeliveryNotificationProvider = ({ children }) => {
   const [location, setLocation] = useState(null);
   const notificationIds = useRef(new Set());
   const previousOrdersRef = useRef({});
+
+  const DELIVERY_API = import.meta.env.VITE_DELIVERY_SERVICE_URL;
+  const NOTIFICATION_API = import.meta.env.VITE_NOTIFICATION_SERVICE_URL;
+  const RESTAURANT_API = import.meta.env.VITE_RESTAURANT_SERVICE_URL;
+  const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
   
   useEffect(() => {
     if (user && user.role === "delivery-personnel") {
@@ -27,7 +32,7 @@ export const DeliveryNotificationProvider = ({ children }) => {
 
   useEffect(() => {
     if (user && user.role === "delivery-personnel") {
-      const socket = io("http://localhost:5002"); 
+      const socket = io(`${NOTIFICATION_API}`); 
 
       socket.on("connect", () => {
         socket.emit("register-delivery", user.id);
@@ -78,7 +83,7 @@ export const DeliveryNotificationProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:5005/api/location",
+        `${DELIVERY_API}/location`,
         {
           latitude: loc.latitude,
           longitude: loc.longitude,
@@ -110,14 +115,14 @@ export const DeliveryNotificationProvider = ({ children }) => {
     if (!user) return;
     
     try {
-      const res = await axios.get("http://localhost:5003/api/restaurants");
+      const res = await axios.get(`${RESTAURANT_API}/restaurants`);
       const nearby = res.data.filter((restaurant) => {
         return calculateDistance(lat, lng, restaurant.latitude, restaurant.longitude) <= 100;
       });
       
       const ordersPromises = nearby.map((restaurant) =>
         axios
-          .get(`http://localhost:5004/api/orders/restaurant/${restaurant._id}?status=ready-for-delivery`)
+          .get(`${ORDER_API}/orders/restaurant/${restaurant._id}?status=ready-for-delivery`)
           .then((res) => ({ restaurantId: restaurant._id, orders: res.data }))
       );
       
