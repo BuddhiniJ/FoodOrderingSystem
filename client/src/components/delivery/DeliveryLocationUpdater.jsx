@@ -68,10 +68,17 @@ const LocationUpdater = () => {
     try {
       const res = await axios.get(`${RESTAURANT_API}/restaurants`);
       const nearby = res.data.filter((restaurant) => {
-        return calculateDistance(lat, lng, restaurant.latitude, restaurant.longitude) <= 100;
+        return (
+          calculateDistance(
+            lat,
+            lng,
+            restaurant.latitude,
+            restaurant.longitude
+          ) <= 100
+        );
       });
       setNearbyRestaurants(nearby);
-  
+
       const ordersPromises = nearby.map((restaurant) =>
         axios
           .get(
@@ -79,25 +86,25 @@ const LocationUpdater = () => {
           )
           .then((res) => ({ restaurantId: restaurant._id, orders: res.data }))
       );
-  
+
       const ordersArray = await Promise.all(ordersPromises);
       const ordersMap = {};
       let totalNewOrders = 0;
-      
+
       ordersArray.forEach(({ restaurantId, orders }) => {
         ordersMap[restaurantId] = orders;
         totalNewOrders += orders.length;
       });
-  
+
       // Display notification if there are any new orders
       if (totalNewOrders > 0) {
         // Use the context's addNotification method instead of browser notifications
         addNotification(`${totalNewOrders} new order(s) ready for delivery`, {
-          type: 'new-orders',
-          count: totalNewOrders
+          type: "new-orders",
+          count: totalNewOrders,
         });
       }
-    
+
       setOrders(ordersMap);
     } catch (error) {
       console.error("Error fetching restaurants:", error);
@@ -111,8 +118,10 @@ const LocationUpdater = () => {
     const dLon = toRad(lon2 - lon1);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   };
@@ -121,26 +130,26 @@ const LocationUpdater = () => {
     try {
       const token = localStorage.getItem("token");
 
-      // ✅ Step 0: Get delivery person's current GPS location
-    const position = await new Promise((resolve, reject) =>
-      navigator.geolocation.getCurrentPosition(resolve, reject)
-    );
-    const currentLatitude = position.coords.latitude;
-    const currentLongitude = position.coords.longitude;
+      //  Step 0: Get delivery person's current GPS location
+      const position = await new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject)
+      );
+      const currentLatitude = position.coords.latitude;
+      const currentLongitude = position.coords.longitude;
 
-    // ✅ Step 0.5: Save delivery person's location to location DB
-    await axios.post(
-      `${DELIVERY_API}/location`, // Make sure LOCATION_API is defined
-      {
-        latitude: currentLatitude,
-        longitude: currentLongitude,
-        availability: true,
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-  
+      //  Step 0.5: Save delivery person's location to location DB
+      await axios.post(
+        `${DELIVERY_API}/location`, // Make sure LOCATION_API is defined
+        {
+          latitude: currentLatitude,
+          longitude: currentLongitude,
+          availability: true,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
       // Step 1: Assign the delivery (External API)
       await axios.post(
         `${DELIVERY_API}/assignments`,
@@ -157,8 +166,8 @@ const LocationUpdater = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-  
-      // ✅ Step 1.5: Save assignment to internal DB
+
+      //  Step 1.5: Save assignment to internal DB
       await axios.post(
         `${DELIVERY_API}/assignments`, // Replace with actual backend API base URL
         {
@@ -175,7 +184,7 @@ const LocationUpdater = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-  
+
       // Step 2: Update order status
       await axios.patch(
         `${ORDER_API}/orders/${order._id}/status`,
@@ -184,7 +193,7 @@ const LocationUpdater = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-  
+
       // Step 3: Fetch customer details
       const customerResponse = await axios.get(
         `${USER_API}/users/${order.customerId}`,
@@ -193,7 +202,7 @@ const LocationUpdater = () => {
         }
       );
       const customer = customerResponse.data.data;
-  
+
       // Step 4: Send notification
       const assignmentData = {
         orderNumber: order.reference,
@@ -206,7 +215,7 @@ const LocationUpdater = () => {
         acceptLink: `${ORDER_API}/order-details/${order._id}`,
         currentYear: new Date().getFullYear(),
       };
-  
+
       await axios.post(
         `${NOTIFICATION_API}/notifications/delivery-assignment`,
         {
@@ -221,15 +230,16 @@ const LocationUpdater = () => {
           },
         }
       );
-  
-      alert("Order assigned, status updated, and notification sent successfully!");
+
+      alert(
+        "Order assigned, status updated, and notification sent successfully!"
+      );
       navigate(`/order-details/${order._id}`);
     } catch (error) {
       console.error("Error accepting order:", error);
       alert("Failed to accept order.");
     }
   };
-  
 
   return (
     <MainLayout>
@@ -247,14 +257,19 @@ const LocationUpdater = () => {
                     width="100%"
                     height="200"
                     frameBorder="0"
-                    style={{ borderTopLeftRadius: "0.75rem", borderTopRightRadius: "0.75rem" }}
+                    style={{
+                      borderTopLeftRadius: "0.75rem",
+                      borderTopRightRadius: "0.75rem",
+                    }}
                     src={`https://maps.google.com/maps?q=${restaurant.latitude},${restaurant.longitude}&z=15&output=embed`}
                     allowFullScreen
                   ></iframe>
 
                   <div className="card-body">
                     <h4 className="card-title mb-2">{restaurant.name}</h4>
-                    <p className="card-text text-muted">{restaurant.description}</p>
+                    <p className="card-text text-muted">
+                      {restaurant.description}
+                    </p>
 
                     {orders[restaurant._id]?.length > 0 ? (
                       <div>
@@ -270,7 +285,9 @@ const LocationUpdater = () => {
                             <div>
                               <button
                                 className="btn btn-primary btn-sm me-2"
-                                onClick={() => navigate(`/order-details/${order._id}`)}
+                                onClick={() =>
+                                  navigate(`/order-details/${order._id}`)
+                                }
                               >
                                 Details
                               </button>
@@ -285,7 +302,9 @@ const LocationUpdater = () => {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-muted">No ready orders at this restaurant.</p>
+                      <p className="text-muted">
+                        No ready orders at this restaurant.
+                      </p>
                     )}
                   </div>
                 </div>

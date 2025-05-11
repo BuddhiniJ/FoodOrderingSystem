@@ -1,22 +1,19 @@
 describe("My Restaurants Payments Page - Repeated Login", () => {
-  const email = "test@gmail.com";
-  const password = "loey#exo";
+  const email = "fitmefirebase@gmail.com";
+  const password = "eshmika123";
 
   beforeEach(() => {
-    // Login before every test
+    // Visit login page
     cy.visit("http://localhost:5173/login");
 
+    // Fill in login form
     cy.get("input[type='email']").type(email);
     cy.get("input[type='password']").type(password);
     cy.get("button[type='submit']").click();
 
-    // Confirm login success
+    // Confirm login and navigate
     cy.url().should("not.include", "/login");
-
-    // Navigate to the payments page
     cy.visit("http://localhost:5173/resturants-payments");
-
-    // Confirm page load
     cy.contains("Payments by Restaurant").should("exist");
   });
 
@@ -46,6 +43,32 @@ describe("My Restaurants Payments Page - Repeated Login", () => {
       .within(() => {
         cy.window().then((win) => cy.stub(win, "confirm").returns(true));
         cy.get(".delete-btn").click();
+      });
+  });
+
+  // Additional Tests
+
+  it("Shows message when no payments are available", () => {
+    cy.intercept("GET", "**/payments/restaurant/**", []).as("getPayments");
+    cy.visit("http://localhost:5173/resturants-payments");
+    cy.contains("No payments found.").should("exist");
+  });
+
+  it("Displays error on failed fetch", () => {
+    cy.intercept("GET", "**/restaurants/my-restaurants", {
+      statusCode: 500,
+      body: {},
+    }).as("getRestaurants");
+
+    cy.visit("http://localhost:5173/resturants-payments");
+    cy.contains("Failed to load payments.").should("exist");
+  });
+
+  it("Displays payment amount with currency", () => {
+    cy.get(".payment-card")
+      .first()
+      .within(() => {
+        cy.contains(/Amount: \d+ (USD|LKR|EUR|GBP)/i).should("exist");
       });
   });
 });
