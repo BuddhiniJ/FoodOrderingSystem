@@ -48,7 +48,7 @@ const RegisterRestaurant = () => {
         }
       });
       alert('Registered successfully!');
-      navigate(`/admin/${res.data._id}/dashboard`);
+      navigate(`/my-restaurants`);
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.error || 'Registration failed');

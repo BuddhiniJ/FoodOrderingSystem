@@ -18,6 +18,15 @@ describe("Login Page", () => {
     cy.get(".error-text").should("be.visible");
   });
 
+  it("should show error message for invalid email format", () => {
+    cy.get('input[name="email"]').type("invalid-email"); // No @ or domain
+    cy.get('input[name="password"]').type("password123");
+    cy.get('button[type="submit"]').click();
+    cy.get(".error-text")
+      .should("be.visible")
+      .and("contain", "Invalid email address");
+  });
+
   it("should show error message for invalid credentials", () => {
     cy.get('input[name="email"]').type("invalid@example.com");
     cy.get('input[name="password"]').type("wrongpassword");

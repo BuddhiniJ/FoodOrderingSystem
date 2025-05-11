@@ -6,86 +6,42 @@ import MainLayout from "../layout/MainLayout";
 import "./CSS/deliveryHome.css";
 
 const TrackDelivery = () => {
-  const [orderId, setOrderId] = useState("");
-  const [deliveryPersonId, setDeliveryPersonId] = useState(null);
   const [location, setLocation] = useState(null);
   const [intervalId, setIntervalId] = useState(null);
+  const DELEVERY_API = import.meta.env.VITE_DELIVERY_SERVICE_URL;
 
-  const DELIVERY_API = import.meta.env.VITE_DELIVERY_SERVICE_URL;
-  const ORDER_API = import.meta.env.VITE_ORDER_SERVICE_URL;
+  const LOCATION_API = `${DELEVERY_API}/location/680921a8d31b511fbb0f0c73`;
 
-  const handleSearch = async () => {
+  const fetchLocation = async () => {
     try {
-      if (!orderId) {
-        alert("Please enter a valid Order ID.");
-        return;
-      }
-
-      // Step 1: Find delivery assignment by orderId
-      const assignmentRes = await axios.get(
-        `${DELIVERY_API}/assignments/order/${orderId}`
-      );
-      const userId = assignmentRes.data.assignment.userId;
-      setDeliveryPersonId(userId);
-
-      // Step 2: Immediately fetch current location
-      fetchLocation(userId);
-
-      // Step 3: Start auto-refresh location every 10 seconds
-      if (intervalId) clearInterval(intervalId); // Clear old timer
-      const id = setInterval(() => fetchLocation(userId), 10000);
-      setIntervalId(id);
-    } catch (error) {
-      console.error("Error searching assignment:", error);
-      alert("Could not find delivery assignment for this Order ID.");
-      setLocation(null); // Clear old location if any
-    }
-  };
-
-  const fetchLocation = async (userId) => {
-    try {
-      const locationRes = await axios.get(`${DELIVERY_API}/location/${userId}`);
-
-      if (locationRes.data && locationRes.data.location) {
-        // ✅ Adjusted extraction based on your backend model
+      const res = await axios.get(LOCATION_API);
+      if (res.data && res.data.location) {
         setLocation({
-          latitude: locationRes.data.location.latitude,
-          longitude: locationRes.data.location.longitude,
+          latitude: res.data.location.latitude,
+          longitude: res.data.location.longitude,
         });
       } else {
         setLocation(null);
       }
     } catch (error) {
-      console.error("Error fetching delivery location:", error);
-      setLocation(null); // Clear if error
+      console.error("Error fetching location:", error);
+      setLocation(null);
     }
   };
 
   useEffect(() => {
-    // Cleanup when component unmounts
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [intervalId]);
+    fetchLocation(); // Initial fetch
+
+    const id = setInterval(fetchLocation, 10000); // Auto-refresh every 10s
+    setIntervalId(id);
+
+    return () => clearInterval(id); // Cleanup
+  }, []);
 
   return (
     <MainLayout>
       <div className="container mt-5">
-        <h2 className="text-center mb-4">Track Your Order</h2>
-
-        <div className="custom-container1">
-          <input
-            type="text"
-            className="custom-container"
-            placeholder="Enter Your Order ID"
-            value={orderId}
-            onChange={(e) => setOrderId(e.target.value)}
-          />
-
-          <button className="btn btn-primary" onClick={handleSearch}>
-            Search
-          </button>
-        </div>
+        <h2 className="text-center mb-4">Live Delivery Tracking</h2>
 
         {location ? (
           <MapContainer
@@ -98,12 +54,12 @@ const TrackDelivery = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Marker position={[location.latitude, location.longitude]}>
-              <Popup>Your Order is here!</Popup>
+              <Popup>Delivery is here!</Popup>
             </Marker>
           </MapContainer>
         ) : (
           <div className="text-center mt-4">
-            <p>No active location tracking yet.</p>
+            <p>Location not available</p>
           </div>
         )}
       </div>
